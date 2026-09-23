@@ -11,6 +11,7 @@ import nbformat
 from new_notebook import PROJECTS, ROOT, RUNTIMES, badge, get_order, get_runtime
 
 START, END = "<!-- notebooks:start -->", "<!-- notebooks:end -->"
+COLORS = {"purple": "🟣", "yellow": "🟡", "orange": "🟠", "blue": "🔵"}
 
 
 def notebooks(project):
@@ -34,7 +35,7 @@ def description(project):
 def notebook_list(project):
     """Return a markdown list of a project's notebooks: Colab button, title, runtime."""
     items = [
-        f"{order}. {badge(path.relative_to(ROOT))} **{title}** · {runtime}"
+        f"{order}. {badge(path.relative_to(ROOT))} &nbsp;**{title}** · _{runtime}_"
         for order, path, title, runtime in notebooks(project)
     ]
     return "\n".join(items) or "_No notebooks yet._"
@@ -51,7 +52,10 @@ def groups_sections():
             f"[Shared Drive folder](https://drive.google.com/drive/folders/{g['team']}) · "
             f"[Project plan](https://docs.google.com/presentation/d/{g['plan']})"
         )
-        sections.append(f"### {project.capitalize()} · {disease}\n\n{description(project)}\n\n{links}\n\n{notebook_list(project)}")
+        sections.append(
+            f"### {COLORS[project]} {project.capitalize()} group · {disease}\n\n"
+            f"{description(project)}\n\n{links}\n\n**Notebooks**\n\n{notebook_list(project)}"
+        )
     return "\n\n".join(sections)
 
 

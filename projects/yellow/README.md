@@ -1,4 +1,4 @@
-# Yellow group: Hypertension
+# 🟡 Yellow group · Hypertension
 
 <!-- description:start -->
 Using AI to support drug discovery for hypertension (high blood pressure), a major risk factor for heart disease and stroke. _Project details will be added from the project plan in the shared Drive._
@@ -12,9 +12,9 @@ Using AI to support drug discovery for hypertension (high blood pressure), a maj
 Click a button to open the notebook in Google Colab, then run the first code cell (Setup) before anything else.
 
 <!-- notebooks:start -->
-1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_getting_started.ipynb) **Getting started** · CPU
+1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
 <!-- notebooks:end -->
 
 ## Data
 
-Data files for this project live in [`data/`](data/), copied from the Drive `Data` folder. Where each file came from is recorded in [`data/SOURCES.md`](data/SOURCES.md).
+Data files for this group live in [`data/`](data/), copied from the Drive `Data` folder. Where each file came from is recorded in [`data/SOURCES.md`](data/SOURCES.md).

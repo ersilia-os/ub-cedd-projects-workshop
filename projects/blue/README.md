@@ -1,4 +1,4 @@
-# Blue group: Cryptosporidiosis
+# 🔵 Blue group · Cryptosporidiosis
 
 <!-- description:start -->
 Structure-based drug discovery for cryptosporidiosis, a diarrhoeal disease caused by the parasite *Cryptosporidium parvum*. The group starts from an AlphaFold 3 model of the parasite's ABC1 transporter protein.
@@ -12,9 +12,9 @@ Structure-based drug discovery for cryptosporidiosis, a diarrhoeal disease cause
 Click a button to open the notebook in Google Colab, then run the first code cell (Setup) before anything else.
 
 <!-- notebooks:start -->
-1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_getting_started.ipynb) **Getting started** · CPU
+1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
 <!-- notebooks:end -->
 
 ## Data
 
-Data files for this project live in [`data/`](data/), copied from the Drive `Data` folder. Where each file came from is recorded in [`data/SOURCES.md`](data/SOURCES.md).
+Data files for this group live in [`data/`](data/), copied from the Drive `Data` folder. Where each file came from is recorded in [`data/SOURCES.md`](data/SOURCES.md).
