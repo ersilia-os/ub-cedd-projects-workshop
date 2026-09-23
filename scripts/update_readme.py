@@ -7,26 +7,27 @@ import re
 
 import nbformat
 
-from new_notebook import PROJECTS, ROOT, RUNTIMES, badge, get_runtime
+from new_notebook import PROJECTS, ROOT, RUNTIMES, badge, get_order, get_runtime
 
 START, END = "<!-- notebooks:start -->", "<!-- notebooks:end -->"
 
 
 def notebooks(project):
-    """Return (path, title, runtime label) for each notebook of a project, in order."""
+    """Return (order, path, title, runtime label) for each notebook of a project, sorted by order."""
     rows = []
-    for path in sorted((ROOT / "projects" / project / "notebooks").glob("*.ipynb")):
+    for path in (ROOT / "projects" / project / "notebooks").glob("*.ipynb"):
         nb = nbformat.read(path, as_version=4)
         match = re.search(r"^# (.+)$", nb.cells[0].source if nb.cells else "", re.MULTILINE)
-        rows.append((path, match.group(1).strip() if match else path.stem, RUNTIMES.get(get_runtime(nb), "?")))
-    return rows
+        title = match.group(1).strip() if match else path.stem
+        rows.append((get_order(nb) or 0, path, title, RUNTIMES.get(get_runtime(nb), "?")))
+    return sorted(rows)
 
 
 def table(project):
     """Return a project README table listing its notebooks with runtime and Colab badge."""
     rows = ["| # | Notebook | Runtime | Open |", "|---|---|---|---|"]
-    for path, title, runtime in notebooks(project):
-        rows.append(f"| {path.name[:2]} | {title} | {runtime} | {badge(path.relative_to(ROOT))} |")
+    for order, path, title, runtime in notebooks(project):
+        rows.append(f"| {order} | {title} | {runtime} | {badge(path.relative_to(ROOT))} |")
     return "\n".join(rows) if len(rows) > 2 else "_No notebooks yet._"
 
 
@@ -35,8 +36,8 @@ def groups_table():
     rows = ["| Group | Disease | Notebook | Runtime | Open |", "|---|---|---|---|---|"]
     for project, disease in PROJECTS.items():
         folder = f"[{project.capitalize()}](projects/{project}/)"
-        entries = notebooks(project) or [(None, "_No notebooks yet._", "")]
-        for path, title, runtime in entries:
+        entries = notebooks(project) or [(0, None, "_No notebooks yet._", "")]
+        for _, path, title, runtime in entries:
             open_cell = badge(path.relative_to(ROOT)) if path else ""
             rows.append(f"| {folder} | {disease} | {title} | {runtime} | {open_cell} |")
     return "\n".join(rows)

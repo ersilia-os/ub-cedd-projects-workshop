@@ -10,7 +10,7 @@ import sys
 
 import nbformat
 
-from new_notebook import ROOT, RUNTIMES, SETUP_INTRO, get_runtime, header_line, setup_source
+from new_notebook import ROOT, RUNTIMES, SETUP_INTRO, get_order, get_runtime, header_line, setup_source
 
 MAX_MB = 50
 
@@ -30,8 +30,10 @@ def check_structure(nb, rel, project):
         problems.append("cell 1 must contain the '# Title'")
     if header_line(project) not in head:
         problems.append(f"cell 1 must contain the line {header_line(project)}")
-    if not re.match(r"\d\d_[a-z0-9_]+\.ipynb$", rel.name):
-        problems.append("file name must be NN_what_it_does.ipynb")
+    if not re.match(rf"{project}_[a-z0-9_]+\.ipynb$", rel.name):
+        problems.append(f"file name must be {project}_what_it_does.ipynb")
+    if not isinstance(get_order(nb), int):
+        problems.append("metadata.workshop.order is missing (create notebooks with new_notebook.py)")
     if cells[1].cell_type != "markdown" or not cells[1].source.startswith("## What you will do"):
         problems.append("cell 2 must be the '## What you will do' markdown cell")
     if cells[2].cell_type != "markdown" or cells[2].source != SETUP_INTRO:
@@ -80,6 +82,11 @@ def check_notebook(path, clear):
 def main():
     clear = "--clear" in sys.argv
     failed = False
+    for group in sorted(ROOT.glob("projects/*/notebooks")):
+        orders = [get_order(nbformat.read(p, as_version=4)) for p in group.glob("*.ipynb")]
+        if len(orders) != len(set(orders)):
+            print(f"{group.relative_to(ROOT)}: two notebooks share the same metadata.workshop.order")
+            failed = True
     for path in sorted(ROOT.glob("projects/*/notebooks/*.ipynb")):
         for problem in check_notebook(path, clear):
             print(f"{path.relative_to(ROOT)}: {problem}")

@@ -4,12 +4,13 @@ Usage
 -----
     python scripts/new_notebook.py <project> "<Title>" [--slug short_name] [--runtime cpu|t4|l4|a100]
 
-The title says what the notebook does. Notebooks are numbered in creation order.
+The title says what the notebook does. The file is named <project>_<slug>.ipynb, and the
+order participants should follow is stored in the notebook metadata (workshop.order).
 
 Example
 -------
-    python scripts/new_notebook.py purple "Train a first model" --runtime t4
-    -> projects/purple/notebooks/02_train_a_first_model.ipynb
+    python scripts/new_notebook.py purple "Data curation" --runtime t4
+    -> projects/purple/notebooks/purple_data_curation.ipynb
 """
 
 import argparse
@@ -83,9 +84,15 @@ def setup_source(project, runtime):
     return SETUP_CELL.format(project=project, gpu=runtime != "cpu", runtime_label=RUNTIMES[runtime], repo=REPO)
 
 
-def build_notebook(rel, project, title, runtime):
+def get_order(nb):
+    """Return the position of a notebook in its group's sequence, or None."""
+    return nb.metadata.get("workshop", {}).get("order")
+
+
+def build_notebook(rel, project, title, runtime, order):
     """Return a new notebook with the standard structure (see CLAUDE.md)."""
     nb = nbformat.v4.new_notebook()
+    nb.metadata["workshop"] = {"order": order}
     nb.metadata["kernelspec"] = {"name": "python3", "display_name": "Python 3", "language": "python"}
     nb.metadata["colab"] = {"provenance": []}
     if runtime != "cpu":
@@ -114,12 +121,12 @@ def main():
 
     nb_dir = ROOT / "projects" / args.project / "notebooks"
     nb_dir.mkdir(parents=True, exist_ok=True)
-    index = len(list(nb_dir.glob("[0-9][0-9]_*.ipynb"))) + 1
-    path = nb_dir / f"{index:02d}_{args.slug or slugify(args.title)}.ipynb"
+    orders = [get_order(nbformat.read(p, as_version=4)) or 0 for p in nb_dir.glob("*.ipynb")]
+    path = nb_dir / f"{args.project}_{args.slug or slugify(args.title)}.ipynb"
     if path.exists():
         raise SystemExit(f"{path} already exists")
     rel = path.relative_to(ROOT)
-    nbformat.write(build_notebook(rel, args.project, args.title, args.runtime), path)
+    nbformat.write(build_notebook(rel, args.project, args.title, args.runtime, max(orders, default=0) + 1), path)
     print(rel)
 
 

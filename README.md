@@ -15,10 +15,10 @@ Four groups work on four projects over four days: **Purple** (HIV), **Yellow** (
 <!-- notebooks:start -->
 | Group | Disease | Notebook | Runtime | Open |
 |---|---|---|---|---|
-| [Purple](projects/purple/) | HIV | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/01_getting_started.ipynb) |
-| [Yellow](projects/yellow/) | Hypertension | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/01_getting_started.ipynb) |
-| [Orange](projects/orange/) | Tuberculosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/01_getting_started.ipynb) |
-| [Blue](projects/blue/) | Cryptosporidiosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/01_getting_started.ipynb) |
+| [Purple](projects/purple/) | HIV | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_getting_started.ipynb) |
+| [Yellow](projects/yellow/) | Hypertension | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_getting_started.ipynb) |
+| [Orange](projects/orange/) | Tuberculosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_getting_started.ipynb) |
+| [Blue](projects/blue/) | Cryptosporidiosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_getting_started.ipynb) |
 <!-- notebooks:end -->
 
 ## Shared Google Drive
@@ -33,7 +33,7 @@ You don't need GitHub to contribute. Each group has a folder in the [shared work
 
 ```
 projects/<color>/
-├── notebooks/        # Colab notebooks, named NN_what_it_does.ipynb
+├── notebooks/        # Colab notebooks, named <color>_what_it_does.ipynb
 ├── data/             # data used by the notebooks
 └── requirements.txt  # extra pip packages installed by the setup cell
 ```

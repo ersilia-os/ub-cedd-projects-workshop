@@ -5,11 +5,18 @@ This is the 4-day UB-CeDD workshop in Buea, Cameroon. There are four groups: pur
 ## Repository conventions
 
 - One folder per group: `projects/<color>/{notebooks,data}/`, plus `requirements.txt` and `README.md`.
-- Notebooks are named by **what they do**, not by day: `NN_what_it_does.ipynb` (e.g. `02_train_a_first_model.ipynb`). `NN` is the order participants should follow.
+- Notebooks are named `<color>_<what_it_does>.ipynb`, always starting with the group color and never with a day or a number (e.g. `purple_data_curation.ipynb`). The same name is used in the repo and in Drive. The order participants should follow is stored in the notebook metadata (`metadata.workshop.order`), and the README tables are sorted by it.
 - Always create notebooks with `python scripts/new_notebook.py <color> "<Title>" [--runtime cpu|t4|l4|a100]`. Never create them by hand. The runtime is stored in the notebook metadata, so Colab opens it on that runtime, and the README tables show it. Participants only get `t4` on free Colab; use `l4`/`a100` only if they have Colab Pro.
 - Paths in notebooks are relative to the project folder, e.g. `pd.read_csv("data/compounds.csv")`. Never use absolute paths or `/content/...`.
 - If a package isn't preinstalled in Colab, add it to the project's `requirements.txt`. No `!pip install` in notebooks.
 - Code shared between a group's notebooks goes in `projects/<color>/*.py` (the setup cell adds the project folder to `sys.path`).
+
+## Where notebooks live
+
+- **Local repo** (`~/Documents/GitHub/ub-cedd-projects-workshop`): the source of truth. Notebooks are only edited here.
+- **GitHub `main`**: what participants open through the README badges.
+- **My Drive/Colab Notebooks/** (Miquel's): a flat, one-way mirror, e.g. `purple_data_curation.ipynb`. It is read-only by convention and gets overwritten on every mirror.
+- **A Colab tab opened from a badge**: a temporary copy that isn't saved anywhere. Its runtime (`/content`) is wiped when it disconnects.
 
 ## Notebook structure (mandatory for every notebook)
 
@@ -37,7 +44,8 @@ Use the `ubcedd` conda env (`~/miniconda3/envs/ubcedd/bin/python`).
 1. Execute each new or changed notebook locally from its `notebooks/` folder and make sure it runs without errors.
 2. `python scripts/check_notebooks.py --clear` clears outputs and checks the structure, the setup cell and file sizes.
 3. `python scripts/update_readme.py` regenerates the tables in the root and project READMEs.
-4. Commit and push to `main`, then test in Colab (below).
+4. Commit and push to `main`.
+5. Mirror the changed notebooks to My Drive/Colab Notebooks (below), then test in Colab.
 
 ## Testing in Colab (Colab-MCP)
 
@@ -58,7 +66,7 @@ Use the `ubcedd` conda env (`~/miniconda3/envs/ubcedd/bin/python`).
 
 Not all participants use GitHub, so each group also has a folder in a shared Google Drive (a Shared Drive): `Projects/<Color>Team/` with `Data/`, `Publications/`, `Presentations/` and the project plan (Google Slides, e.g. *Blue: Cryptosporidiosis*). The root also has `GeneralPublications/`, `ErsiliaPresentations/`, `StudentIntroPresentations/` and a `Glossary` doc. **All Drive IDs are in `drive.json`.** Always look them up there, never hard-code them. IDs don't change when folders are moved, so a move or rename only needs `drive.json` updating if a title changed. Use the Google Drive MCP for everything.
 
-- **Data flows one way, Drive → GitHub.** Participants put files in Drive, and Claude copies them into `projects/<color>/data/`. Notebooks only ever read from the repo (`data/<file>`). Never write to Drive unless asked.
+- **Data flows one way, Drive → GitHub.** Participants put files in Drive, and Claude copies them into `projects/<color>/data/`. Notebooks only ever read from the repo (`data/<file>`). Never write to the shared Drive unless asked (the notebook mirror goes to My Drive, not here).
 - **Read context before coding.** Before writing a group's notebook, read its project plan and skim its `Publications/`. Publications and presentations are **never** copied into the repo (the repo is public, and copyright applies).
 
 ### Health check (run at the start of every session, before every sync, and every few hours while working)
@@ -82,6 +90,20 @@ When a notebook needs data, or when asked to "sync <color> data":
 3. If a file looks unpublished, patient-level or otherwise sensitive, **ask Miquel before committing it.** Public datasets (ChEMBL, paper supplements, etc.) are fine.
 4. Add or update a row in `projects/<color>/data/SOURCES.md` with: repo file, Drive file name, Drive ID, Drive modified time, date copied, original source. On a re-sync, only files whose Drive modified time changed get copied again.
 5. Files over 50 MB follow the data policy below. If a download is too large for the MCP, ask Miquel to download it by hand.
+
+## Mirroring notebooks to My Drive/Colab Notebooks
+
+The folder ID is in `drive.json` → `mirror.folder`. The folder also holds unrelated older notebooks, so only ever touch files named `purple_*`, `yellow_*`, `orange_*` or `blue_*` that end in `.ipynb` and match a repo notebook (current or former).
+
+The Drive MCP can't replace a file's contents, so every update is a trash-and-re-upload:
+1. List the folder and pick out the mirror files.
+2. For each notebook added or changed in the push:
+   - If its Drive copy was modified after it was uploaded, someone edited it there. **Warn Miquel before overwriting.**
+   - Otherwise `trash_file` the old copy, then `create_file` with the notebook JSON as `textContent`, `contentMimeType: application/x-ipynb+json`, `disableConversionToGoogleType: true`, `parentId` = the mirror folder, and the same file name.
+3. Trash Drive copies of notebooks that were renamed or deleted in the repo.
+4. Report what was uploaded and what was trashed.
+
+Each upload gets a new Drive ID, so open mirrored notebooks from the folder rather than bookmarking them.
 
 ## Data
 

@@ -1,6 +1,12 @@
 {
-  "root": {"id": "1V2IHpFEsjSbLgixtLpiKpFQKMAg6VSTg", "url": "https://drive.google.com/drive/folders/1V2IHpFEsjSbLgixtLpiKpFQKMAg6VSTg"},
-  "projects": {"id": "1GhRh25HuZOaRXEWD8zUnsN0ppZ9yIga-", "title": "Projects"},
+  "root": {
+    "id": "1V2IHpFEsjSbLgixtLpiKpFQKMAg6VSTg",
+    "url": "https://drive.google.com/drive/folders/1V2IHpFEsjSbLgixtLpiKpFQKMAg6VSTg"
+  },
+  "projects": {
+    "id": "1GhRh25HuZOaRXEWD8zUnsN0ppZ9yIga-",
+    "title": "Projects"
+  },
   "general": {
     "GeneralPublications": "1Lht8Z9ibyn007WB6FysNAG_QXF3pLukp",
     "ErsiliaPresentations": "1VWlQscGvT7OxMiSfqjvaAxjJz9GlQ3Ja",
@@ -8,9 +14,45 @@
     "Glossary": "1Zc7ZpMpsDUek5_6D3WKReAoWxpzDAgBMMoEKLl41Bq8"
   },
   "groups": {
-    "purple": {"team": "1ym6spmjfJze60G52v7rUjbwQ4L_bqik5", "title": "PurpleTeam", "data": "1pCdFJ5IPX1bHKLD9bYD_WnMTkUnBBpPG", "publications": "1vBHZiMfvvQHfDO65Lg6fLD3gbkYfqGaw", "presentations": "1Hs-gtCY991AZBXD5UiKapC4-CGe_c4Ef", "plan": "1Igq5d_gt5hVbe3X-u8Fw8M6JOBXO3HqjGpTdlTzHKig", "plan_title": "Purple: HIV"},
-    "yellow": {"team": "19Xg8Fu8_78R4QFjPXPotB91XCHpTy40h", "title": "YellowTeam", "data": "1Z831oAVGTbXvkGYG9x8TianIMaxVa5ro", "publications": "1X2tHwPM8MYH6i-boeOrYA0uzA4UDE0tC", "presentations": "1emmPwJ8w6gZ60KqU0jT60rbicbXleK0b", "plan": "17CRZ0wjGJrxvKFwZ9VDbXCRiNY_D0HLW05a0xYRgerQ", "plan_title": "Yellow: Hypertension"},
-    "orange": {"team": "1L452i_YdUzQCUQwIBlvSCHG5Rn95qJId", "title": "OrangeTeam", "data": "14yJydWNAQggQdZlkxxegj7Pi_q4mSg30", "publications": "1zySxC3DqTKJJOu_H94WW5qlHv9S82PDZ", "presentations": "1MgG5LF7dAqYTATqVFE08ndGnVvEOeKpv", "plan": "1Ffp0yiNLy6vAM3VXu3Kcp2QfgG_x8P9Ot9Ioqu4yRns", "plan_title": "Orange: Tuberculosis"},
-    "blue": {"team": "1r2LlyX3ezVJBYe7iv2XHrf9mXQemMNw6", "title": "BlueTeam", "data": "1P61bUmo8SBMw3o-TU5akW7K9LE9m3Juw", "publications": "1yAIL44rEimG55yCfs1H7ypXaiNAcpMms", "presentations": "1PF_wPkXoj6LIM0ImmUfZca6pXQMPL8rv", "plan": "1ykMahn_C9_3RZzKUbI7cQLzNg6ptHl4Us1Qoqzc9vGU", "plan_title": "Blue: Cryptosporidiosis"}
+    "purple": {
+      "team": "1ym6spmjfJze60G52v7rUjbwQ4L_bqik5",
+      "title": "PurpleTeam",
+      "data": "1pCdFJ5IPX1bHKLD9bYD_WnMTkUnBBpPG",
+      "publications": "1vBHZiMfvvQHfDO65Lg6fLD3gbkYfqGaw",
+      "presentations": "1Hs-gtCY991AZBXD5UiKapC4-CGe_c4Ef",
+      "plan": "1Igq5d_gt5hVbe3X-u8Fw8M6JOBXO3HqjGpTdlTzHKig",
+      "plan_title": "Purple: HIV"
+    },
+    "yellow": {
+      "team": "19Xg8Fu8_78R4QFjPXPotB91XCHpTy40h",
+      "title": "YellowTeam",
+      "data": "1Z831oAVGTbXvkGYG9x8TianIMaxVa5ro",
+      "publications": "1X2tHwPM8MYH6i-boeOrYA0uzA4UDE0tC",
+      "presentations": "1emmPwJ8w6gZ60KqU0jT60rbicbXleK0b",
+      "plan": "17CRZ0wjGJrxvKFwZ9VDbXCRiNY_D0HLW05a0xYRgerQ",
+      "plan_title": "Yellow: Hypertension"
+    },
+    "orange": {
+      "team": "1L452i_YdUzQCUQwIBlvSCHG5Rn95qJId",
+      "title": "OrangeTeam",
+      "data": "14yJydWNAQggQdZlkxxegj7Pi_q4mSg30",
+      "publications": "1zySxC3DqTKJJOu_H94WW5qlHv9S82PDZ",
+      "presentations": "1MgG5LF7dAqYTATqVFE08ndGnVvEOeKpv",
+      "plan": "1Ffp0yiNLy6vAM3VXu3Kcp2QfgG_x8P9Ot9Ioqu4yRns",
+      "plan_title": "Orange: Tuberculosis"
+    },
+    "blue": {
+      "team": "1r2LlyX3ezVJBYe7iv2XHrf9mXQemMNw6",
+      "title": "BlueTeam",
+      "data": "1P61bUmo8SBMw3o-TU5akW7K9LE9m3Juw",
+      "publications": "1yAIL44rEimG55yCfs1H7ypXaiNAcpMms",
+      "presentations": "1PF_wPkXoj6LIM0ImmUfZca6pXQMPL8rv",
+      "plan": "1ykMahn_C9_3RZzKUbI7cQLzNg6ptHl4Us1Qoqzc9vGU",
+      "plan_title": "Blue: Cryptosporidiosis"
+    }
+  },
+  "mirror": {
+    "folder": "1VPZ00L5tl-1zHtkjcOK7S2KbS5FwSXAw",
+    "title": "My Drive/Colab Notebooks"
   }
 }
