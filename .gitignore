@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Workshop: large data downloaded at runtime (host it as a release asset, not in git)
+projects/*/data/downloads/
