@@ -14,9 +14,9 @@ This is the 4-day UB-CeDD workshop in Buea, Cameroon. There are four groups: pur
 
 ## Where notebooks live
 
-- **Local repo** (`~/Documents/GitHub/ub-cedd-projects-workshop`): the source of truth for what gets committed. Work may be *developed* in Colab (see below), but it always lands here before it's committed.
+- **Local repo** (the developer's clone of this repository): the source of truth for what gets committed. Work may be *developed* in Colab (see below), but it always lands here before it's committed.
 - **GitHub `main`**: what participants open through the README badges.
-- **My Drive/Colab Notebooks/** (Miquel's): a flat, one-way mirror, e.g. `purple_data_curation.ipynb`. It is read-only by convention and gets overwritten on every mirror.
+- **My Drive/Colab Notebooks/** (the developer's own): a flat, one-way mirror, e.g. `purple_data_curation.ipynb`. It is read-only by convention and gets overwritten on every mirror.
 - **A Colab tab opened from a badge**: a temporary copy that isn't saved anywhere. Its runtime (`/content`) is wiped when it disconnects.
 
 ## Notebook structure (mandatory for every notebook)
@@ -40,7 +40,7 @@ Style:
 
 ## Before committing
 
-Use the `ubcedd` conda env (`~/miniconda3/envs/ubcedd/bin/python`).
+Use a local Python environment with `nbformat`, `nbclient`, `ipykernel` and `pandas` installed (e.g. a conda env called `ubcedd`).
 
 1. Execute each new or changed notebook locally from its `notebooks/` folder and make sure it runs without errors.
 2. `python scripts/check_notebooks.py --clear` clears outputs and checks the structure, the setup cell and file sizes.
@@ -50,9 +50,9 @@ Use the `ubcedd` conda env (`~/miniconda3/envs/ubcedd/bin/python`).
 
 ## Developing locally or in Colab (Colab-MCP)
 
-Claude can develop a notebook in two modes and switch between them at any time. **If Miquel says which mode to use ("do this in Colab", "work locally"), follow that.** Otherwise pick the one that fits, and say in one line when switching and why.
+Claude can develop a notebook in two modes and switch between them at any time. **If the developer says which mode to use ("do this in Colab", "work locally"), follow that.** Otherwise pick the one that fits, and say in one line when switching and why.
 
-- **Local** (edit the `.ipynb` in the repo, run it in `ubcedd`). This is the default for:
+- **Local** (edit the `.ipynb` in the repo, run it in the local Python environment). This is the default for:
   - creating notebooks with `new_notebook.py`, structure, markdown, refactors and small fixes
   - anything that touches other repo files (helper `.py` modules, `requirements.txt`, data, READMEs)
   - code that runs fine on a laptop
@@ -60,14 +60,14 @@ Claude can develop a notebook in two modes and switch between them at any time. 
   - the notebook needs a GPU or more memory than the laptop has
   - packages or behaviour differ in Colab, or something works locally but fails there
   - the next step depends on looking at real outputs (data exploration, plots, model results)
-  - Miquel wants to watch the notebook being built live
+  - the developer wants to watch the notebook being built live
   - checking that a notebook passes in Colab before announcing it
 
 ### How Colab-MCP connects
 
 `open_colab_browser_connection` always opens its **own** Colab tab, a blank notebook (`notebooks/empty.ipynb`, the "scratchpad"), with a connection key in the link (`#mcpProxyToken=…&mcpProxyPort=…`). Only that tab talks to Claude. Treat the scratchpad as a disposable Colab workspace:
 - Paste in the notebook's cells from the repo, or build new ones there, and run them. The setup cell clones this repo, so the code, data and packages are the same as in the real notebook.
-- The scratchpad doesn't inherit the notebook's runtime. For GPU notebooks, Miquel switches it with *Runtime → Change runtime type*. Claude can't change the runtime.
+- The scratchpad doesn't inherit the notebook's runtime. For GPU notebooks, the developer switches it with *Runtime → Change runtime type*. Claude can't change the runtime.
 - (Untested) Appending the same `#mcpProxyToken=…&mcpProxyPort=…` to another notebook's Colab link might connect that notebook instead. If this is confirmed to work, record it here.
 
 ### Keeping the two in sync
@@ -95,31 +95,31 @@ Not all participants use GitHub, so each group also has a folder in a shared Goo
 For each ID in `drive.json`:
 1. `get_file_metadata`: the item exists and isn't trashed, and its title matches. If something has moved or been renamed, update `drive.json`.
 2. `get_file_permissions` on the root and each team folder:
-   - Miquel's account still has access.
+   - The developer's account still has access.
    - `type: anyone` must never have edit rights (`writer`, `fileOrganizer`, `organizer`). The repo is public and links to these folders, so anyone online could edit or delete files. `anyone` as `reader` is accepted, but it means everything in the Drive is publicly readable.
    - Participants (their emails or a Google Group) must have edit access so they can add data.
    - Flag any violation at once.
 3. List each `Data/` folder and report any files that are new or changed since `data/SOURCES.md` was last updated.
 
-Report ✓ per group or a clear list of problems. Never change permissions yourself; that is Miquel's call.
+Report ✓ per group or a clear list of problems. Never change permissions yourself; that is the developer's call.
 
 ### Syncing data from Drive
 
 When a notebook needs data, or when asked to "sync <color> data":
 1. Run the health check for that group, then list its `Data/` folder.
 2. Download what's needed with `download_file_content`. Export Google Sheets as CSV. Convert Excel files to CSV when a table is all the notebook needs. Use clean file names (lowercase, underscores).
-3. If a file looks unpublished, patient-level or otherwise sensitive, **ask Miquel before committing it.** Public datasets (ChEMBL, paper supplements, etc.) are fine.
+3. If a file looks unpublished, patient-level or otherwise sensitive, **ask the developer before committing it.** Public datasets (ChEMBL, paper supplements, etc.) are fine.
 4. Add or update a row in `projects/<color>/data/SOURCES.md` with: repo file, Drive file name, Drive ID, Drive modified time, date copied, original source. On a re-sync, only files whose Drive modified time changed get copied again.
-5. Files over 50 MB follow the data policy below. If a download is too large for the MCP, ask Miquel to download it by hand.
+5. Files over 50 MB follow the data policy below. If a download is too large for the MCP, ask the developer to download it by hand.
 
 ## Mirroring notebooks to My Drive/Colab Notebooks
 
-The folder ID is in `drive.json` → `mirror.folder`. The folder also holds unrelated older notebooks, so only ever touch files named `purple_*`, `yellow_*`, `orange_*` or `blue_*` that end in `.ipynb` and match a repo notebook (current or former).
+The folder is the developer's own *My Drive/Colab Notebooks*, so it isn't in `drive.json`. Find it with `search_files` (`title = 'Colab Notebooks' and mimeType = 'application/vnd.google-apps.folder' and owner = 'me'`). The folder may also hold unrelated older notebooks, so only ever touch files named `purple_*`, `yellow_*`, `orange_*` or `blue_*` that end in `.ipynb` and match a repo notebook (current or former).
 
 The Drive MCP can't replace a file's contents, so every update is a trash-and-re-upload:
 1. List the folder and pick out the mirror files.
 2. For each notebook added or changed in the push:
-   - If its Drive copy was modified after it was uploaded, someone edited it there. **Warn Miquel before overwriting.**
+   - If its Drive copy was modified after it was uploaded, someone edited it there. **Warn the developer before overwriting.**
    - Otherwise `trash_file` the old copy, then `create_file` with the notebook JSON as `textContent`, `contentMimeType: application/x-ipynb+json`, `disableConversionToGoogleType: true`, `parentId` = the mirror folder, and the same file name.
 3. Trash Drive copies of notebooks that were renamed or deleted in the repo.
 4. Report what was uploaded and what was trashed.
