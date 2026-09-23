@@ -1,7 +1,7 @@
 # ub-cedd-projects-workshop
 Project-driven workshop at the UB-CeDD centre in Buea, Cameroon.
 
-Four projects (**Purple**, **Yellow**, **Orange** and **Blue**) run over four days. New notebooks are added each day.
+Four groups work on four projects over four days: **Purple** (HIV), **Yellow** (Hypertension), **Orange** (Tuberculosis) and **Blue** (Cryptosporidiosis). New notebooks are added each day.
 
 ## How to run a notebook
 
@@ -13,29 +13,12 @@ Four projects (**Purple**, **Yellow**, **Orange** and **Blue**) run over four da
 ## Notebooks
 
 <!-- notebooks:start -->
-### Purple
-
-| Day | Notebook | Open |
+| Group | Disease | Notebooks |
 |---|---|---|
-| 1 | Setup check | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/day1_00_setup_check.ipynb) |
-
-### Yellow
-
-| Day | Notebook | Open |
-|---|---|---|
-| 1 | Setup check | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/day1_00_setup_check.ipynb) |
-
-### Orange
-
-| Day | Notebook | Open |
-|---|---|---|
-| 1 | Setup check | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/day1_00_setup_check.ipynb) |
-
-### Blue
-
-| Day | Notebook | Open |
-|---|---|---|
-| 1 | Setup check | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/day1_00_setup_check.ipynb) |
+| [Purple](projects/purple/) | HIV | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/day1_00_hiv.ipynb) Day 1 |
+| [Yellow](projects/yellow/) | Hypertension | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/day1_00_hypertension.ipynb) Day 1 |
+| [Orange](projects/orange/) | Tuberculosis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/day1_00_tuberculosis.ipynb) Day 1 |
+| [Blue](projects/blue/) | Cryptosporidiosis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/day1_00_cryptosporidiosis.ipynb) Day 1 |
 <!-- notebooks:end -->
 
 ## Repository layout

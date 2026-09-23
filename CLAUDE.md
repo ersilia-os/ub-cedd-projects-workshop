@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This is the 4-day UB-CeDD workshop in Buea, Cameroon. Four projects: purple, yellow, orange, blue. Participants run the notebooks in **Google Colab** by clicking badges in the READMEs. Anything pushed to `main` goes live for them right away.
+This is the 4-day UB-CeDD workshop in Buea, Cameroon. Four projects: purple (HIV), yellow (Hypertension), orange (Tuberculosis), blue (Cryptosporidiosis). The list lives in `PROJECTS` in `scripts/new_notebook.py`. Participants run the notebooks in **Google Colab** by clicking badges in the READMEs. Anything pushed to `main` goes live for them right away.
 
 ## Conventions
 

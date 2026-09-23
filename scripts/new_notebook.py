@@ -19,7 +19,12 @@ import nbformat
 REPO = "ersilia-os/ub-cedd-projects-workshop"
 BRANCH = "main"
 ROOT = Path(__file__).resolve().parents[1]
-PROJECTS = ["purple", "yellow", "orange", "blue"]
+PROJECTS = {
+    "purple": "HIV",
+    "yellow": "Hypertension",
+    "orange": "Tuberculosis",
+    "blue": "Cryptosporidiosis",
+}
 
 SETUP_CELL = '''# Setup: run this cell first. In Colab it downloads the workshop repository and installs requirements.
 PROJECT = "{project}"
@@ -55,7 +60,7 @@ def slugify(text):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("project", choices=PROJECTS)
+    parser.add_argument("project", choices=list(PROJECTS))
     parser.add_argument("day", type=int, choices=[1, 2, 3, 4])
     parser.add_argument("title")
     parser.add_argument("--slug", default=None)
@@ -75,7 +80,7 @@ def main():
     nb.metadata["kernelspec"] = {"name": "python3", "display_name": "Python 3", "language": "python"}
     nb.metadata["colab"] = {"provenance": []}
     nb.cells = [
-        nbformat.v4.new_markdown_cell(f"{badge(rel)}\n\n# {args.title}\n\n**Project {args.project} · Day {args.day}**\n\n_Describe what this notebook does._"),
+        nbformat.v4.new_markdown_cell(f"{badge(rel)}\n\n# {args.title}\n\n**{args.project.capitalize()} group ({PROJECTS[args.project]}) · Day {args.day}**\n\n_Describe what this notebook does._"),
         nbformat.v4.new_code_cell(SETUP_CELL.format(project=args.project, repo=REPO)),
     ]
     nbformat.write(nb, path)

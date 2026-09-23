@@ -35,6 +35,17 @@ def table(project):
     return "\n".join(rows)
 
 
+def groups_table():
+    """Return the root README table: one row per group with a Colab button per notebook."""
+    rows = ["| Group | Disease | Notebooks |", "|---|---|---|"]
+    for project, disease in PROJECTS.items():
+        notebooks = sorted((ROOT / "projects" / project / "notebooks").glob("*.ipynb"))
+        links = "<br>".join(f"{badge(p.relative_to(ROOT))} Day {p.name.split('_')[0][3:]}" for p in notebooks)
+        folder = f"[{project.capitalize()}](projects/{project}/)"
+        rows.append(f"| {folder} | {disease} | {links or '_No notebooks yet._'} |")
+    return "\n".join(rows)
+
+
 def replace_block(readme, content):
     """Replace the marked block in a README file with new content."""
     text = readme.read_text()
@@ -46,12 +57,9 @@ def replace_block(readme, content):
 
 
 def main():
-    sections = []
     for project in PROJECTS:
-        project_table = table(project)
-        replace_block(ROOT / "projects" / project / "README.md", project_table)
-        sections.append(f"### {project.capitalize()}\n\n{project_table}")
-    replace_block(ROOT / "README.md", "\n\n".join(sections))
+        replace_block(ROOT / "projects" / project / "README.md", table(project))
+    replace_block(ROOT / "README.md", groups_table())
     print("READMEs updated")
 
 
