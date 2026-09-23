@@ -54,6 +54,35 @@ Use the `ubcedd` conda env (`~/miniconda3/envs/ubcedd/bin/python`).
 - `colab-environment.txt` records Colab's Python version and `pip freeze`. Refresh it over MCP when Colab updates, and keep local package versions close to it.
 - Pushes go straight to `main`, so participants can open a notebook before it has passed in Colab. Announce new notebooks only after they pass.
 
+## Shared Google Drive
+
+Not all participants use GitHub, so each group also has a folder in a shared Google Drive (a Shared Drive): `Projects/<Color>Team/` with `Data/`, `Publications/`, `Presentations/` and the project plan (Google Slides, e.g. *Blue: Cryptosporidiosis*). The root also has `GeneralPublications/`, `ErsiliaPresentations/`, `StudentIntroPresentations/` and a `Glossary` doc. **All Drive IDs are in `drive.json`.** Always look them up there, never hard-code them. IDs don't change when folders are moved, so a move or rename only needs `drive.json` updating if a title changed. Use the Google Drive MCP for everything.
+
+- **Data flows one way, Drive → GitHub.** Participants put files in Drive, and Claude copies them into `projects/<color>/data/`. Notebooks only ever read from the repo (`data/<file>`). Never write to Drive unless asked.
+- **Read context before coding.** Before writing a group's notebook, read its project plan and skim its `Publications/`. Publications and presentations are **never** copied into the repo (the repo is public, and copyright applies).
+
+### Health check (run at the start of every session, before every sync, and every few hours while working)
+
+For each ID in `drive.json`:
+1. `get_file_metadata`: the item exists and isn't trashed, and its title matches. If something has moved or been renamed, update `drive.json`.
+2. `get_file_permissions` on the root and each team folder:
+   - Miquel's account still has access.
+   - `type: anyone` must never have edit rights (`writer`, `fileOrganizer`, `organizer`). The repo is public and links to these folders, so anyone online could edit or delete files. `anyone` as `reader` is accepted, but it means everything in the Drive is publicly readable.
+   - Participants (their emails or a Google Group) must have edit access so they can add data.
+   - Flag any violation at once.
+3. List each `Data/` folder and report any files that are new or changed since `data/SOURCES.md` was last updated.
+
+Report ✓ per group or a clear list of problems. Never change permissions yourself; that is Miquel's call.
+
+### Syncing data from Drive
+
+When a notebook needs data, or when asked to "sync <color> data":
+1. Run the health check for that group, then list its `Data/` folder.
+2. Download what's needed with `download_file_content`. Export Google Sheets as CSV. Convert Excel files to CSV when a table is all the notebook needs. Use clean file names (lowercase, underscores).
+3. If a file looks unpublished, patient-level or otherwise sensitive, **ask Miquel before committing it.** Public datasets (ChEMBL, paper supplements, etc.) are fine.
+4. Add or update a row in `projects/<color>/data/SOURCES.md` with: repo file, Drive file name, Drive ID, Drive modified time, date copied, original source. On a re-sync, only files whose Drive modified time changed get copied again.
+5. Files over 50 MB follow the data policy below. If a download is too large for the MCP, ask Miquel to download it by hand.
+
 ## Data
 
 - Data files under 50 MB are committed in `projects/<color>/data/`. GitHub rejects files over 100 MB.

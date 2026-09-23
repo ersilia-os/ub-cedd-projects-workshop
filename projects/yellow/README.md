@@ -2,6 +2,9 @@
 
 _Project description to be added._
 
+- **Shared Drive folder:** [YellowTeam](https://drive.google.com/drive/folders/19Xg8Fu8_78R4QFjPXPotB91XCHpTy40h). Data, publications and presentations for this group go here.
+- **Project plan:** [Yellow: Hypertension](https://docs.google.com/presentation/d/17CRZ0wjGJrxvKFwZ9VDbXCRiNY_D0HLW05a0xYRgerQ)
+
 ## Notebooks
 
 Click a badge to open the notebook in Google Colab. Run the first code cell (setup) before anything else.
@@ -14,4 +17,4 @@ Click a badge to open the notebook in Google Colab. Run the first code cell (set
 
 ## Data
 
-Data files for this project live in [`data/`](data/).
+Data files for this project live in [`data/`](data/), copied from the Drive `Data` folder. Where each file came from is recorded in [`data/SOURCES.md`](data/SOURCES.md).

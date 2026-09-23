@@ -21,6 +21,14 @@ Four groups work on four projects over four days: **Purple** (HIV), **Yellow** (
 | [Blue](projects/blue/) | Cryptosporidiosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/01_getting_started.ipynb) |
 <!-- notebooks:end -->
 
+## Shared Google Drive
+
+You don't need GitHub to contribute. Each group has a folder in the [shared workshop Drive](https://drive.google.com/drive/folders/1V2IHpFEsjSbLgixtLpiKpFQKMAg6VSTg) under `Projects/`, for example `Projects/PurpleTeam/`, with:
+
+- `Data/`: put your data files here. The organisers copy them into this repository so the notebooks can use them.
+- `Publications/` and `Presentations/`: papers and slides for the group.
+- The project plan (e.g. *Purple: HIV*).
+
 ## Repository layout
 
 ```
