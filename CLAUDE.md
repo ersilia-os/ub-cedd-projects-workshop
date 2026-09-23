@@ -14,7 +14,7 @@ This is the 4-day UB-CeDD workshop in Buea, Cameroon. There are four groups: pur
 
 ## Where notebooks live
 
-- **Local repo** (`~/Documents/GitHub/ub-cedd-projects-workshop`): the source of truth. Notebooks are only edited here.
+- **Local repo** (`~/Documents/GitHub/ub-cedd-projects-workshop`): the source of truth for what gets committed. Work may be *developed* in Colab (see below), but it always lands here before it's committed.
 - **GitHub `main`**: what participants open through the README badges.
 - **My Drive/Colab Notebooks/** (Miquel's): a flat, one-way mirror, e.g. `purple_data_curation.ipynb`. It is read-only by convention and gets overwritten on every mirror.
 - **A Colab tab opened from a badge**: a temporary copy that isn't saved anywhere. Its runtime (`/content`) is wiped when it disconnects.
@@ -46,22 +46,42 @@ Use the `ubcedd` conda env (`~/miniconda3/envs/ubcedd/bin/python`).
 2. `python scripts/check_notebooks.py --clear` clears outputs and checks the structure, the setup cell and file sizes.
 3. `python scripts/update_readme.py` regenerates the tables in the root and project READMEs.
 4. Commit and push to `main`.
-5. Mirror the changed notebooks to My Drive/Colab Notebooks (below), then test in Colab.
+5. Mirror the changed notebooks to My Drive/Colab Notebooks (below), then run the final check in Colab.
 
-## Testing in Colab (Colab-MCP)
+## Developing locally or in Colab (Colab-MCP)
 
-**Local git is the source of truth. Colab is only a test bench.**
+Claude can develop a notebook in two modes and switch between them at any time. **If Miquel says which mode to use ("do this in Colab", "work locally"), follow that.** Otherwise pick the one that fits, and say in one line when switching and why.
 
-- Notebooks are only ever edited locally. Never save from Colab (*File → Save* / *Save a copy in GitHub*). If something gets fixed or explored in Colab, read the cell sources back over MCP and write them into the local `.ipynb`.
-- The loop:
-  1. Push, then give Miquel the notebook's Colab URL (from its badge) to open in the browser.
-  2. Call `open_colab_browser_connection` and run the cells in order, reading outputs and errors.
-  3. On a failure, fix the file locally and push. Then re-run the setup cell in the same tab (it runs `git pull`), and re-run from the failing cell.
-  4. For a final clean check, *Runtime → Disconnect and delete runtime*, then run every cell again.
-  5. Report pass or fail, with the runtime the notebook was tested on (the setup cell prints the Python version and whether a GPU is present).
-- Colab-MCP can't change the runtime. The runtime comes from the notebook metadata (`--runtime`) or from Miquel via *Runtime → Change runtime type*.
-- `colab-environment.txt` records Colab's Python version and `pip freeze`. Refresh it over MCP when Colab updates, and keep local package versions close to it.
-- Pushes go straight to `main`, so participants can open a notebook before it has passed in Colab. Announce new notebooks only after they pass.
+- **Local** (edit the `.ipynb` in the repo, run it in `ubcedd`). This is the default for:
+  - creating notebooks with `new_notebook.py`, structure, markdown, refactors and small fixes
+  - anything that touches other repo files (helper `.py` modules, `requirements.txt`, data, READMEs)
+  - code that runs fine on a laptop
+- **Colab** (write and run cells directly in a Colab tab over Colab-MCP). Use it when:
+  - the notebook needs a GPU or more memory than the laptop has
+  - packages or behaviour differ in Colab, or something works locally but fails there
+  - the next step depends on looking at real outputs (data exploration, plots, model results)
+  - Miquel wants to watch the notebook being built live
+  - checking that a notebook passes in Colab before announcing it
+
+### How Colab-MCP connects
+
+`open_colab_browser_connection` always opens its **own** Colab tab, a blank notebook (`notebooks/empty.ipynb`, the "scratchpad"), with a connection key in the link (`#mcpProxyToken=…&mcpProxyPort=…`). Only that tab talks to Claude. Treat the scratchpad as a disposable Colab workspace:
+- Paste in the notebook's cells from the repo, or build new ones there, and run them. The setup cell clones this repo, so the code, data and packages are the same as in the real notebook.
+- The scratchpad doesn't inherit the notebook's runtime. For GPU notebooks, Miquel switches it with *Runtime → Change runtime type*. Claude can't change the runtime.
+- (Untested) Appending the same `#mcpProxyToken=…&mcpProxyPort=…` to another notebook's Colab link might connect that notebook instead. If this is confirmed to work, record it here.
+
+### Keeping the two in sync
+
+- **Switching Colab → local:** before any commit, read the final cell sources from Colab over MCP and write them into the repo notebook, keeping the standard structure. Leave out scratch cells (debug prints, experiments). Then follow "Before committing" as usual: run locally if possible, `check_notebooks.py --clear`, `update_readme.py`, commit, push, mirror.
+- **Switching local → Colab:** push first, then re-run the setup cell in the Colab tab so it `git pull`s the latest repo, and paste in the updated cells.
+- Never use Colab's *File → Save* / *Save a copy in GitHub* / *Save a copy in Drive* to store work. The repo, and the My Drive mirror made from it, are the only saved copies.
+- If a notebook only runs in Colab (e.g. it needs a GPU), local execution in "Before committing" is replaced by a full top-to-bottom run in Colab. Say so in the commit message.
+
+### Final check in Colab
+
+Before a notebook is announced: *Runtime → Disconnect and delete runtime*, then run every cell top to bottom in Colab. Report pass or fail, with the runtime (the setup cell prints the Python version and whether a GPU is present). Pushes go straight to `main`, so announce notebooks only after they pass.
+
+`colab-environment.txt` records Colab's Python version and `pip freeze`. Refresh it over MCP when Colab updates, and keep local package versions close to it.
 
 ## Shared Google Drive
 
