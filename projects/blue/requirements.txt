@@ -1,1 +1,4 @@
 # Extra packages for this project. Colab already provides numpy, pandas, scikit-learn and matplotlib.
+py3Dmol
+rdkit
+stylia
