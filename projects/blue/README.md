@@ -1,11 +1,11 @@
 # 🔵 Blue group · Cryptosporidiosis
 
 <!-- description:start -->
-Structure-based drug discovery for cryptosporidiosis, a diarrhoeal disease caused by the parasite *Cryptosporidium parvum*. The group starts from an AlphaFold 3 model of the parasite's ABC1 transporter protein.
+***In silico* generation and validation of silymarin analogues against CpABC1**, an ABC transporter of *Cryptosporidium parvum* sitting at the host–parasite interface. Silymarin inhibits parasite growth, but only at high concentrations, so the group compares AlphaFold and I-TASSER models of the target, derives a pharmacophore from the CpABC1–silymarin complex, and uses it to screen and rank better candidates.
 <!-- description:end -->
 
 - **Shared Drive folder:** [BlueTeam](https://drive.google.com/drive/folders/1r2LlyX3ezVJBYe7iv2XHrf9mXQemMNw6). Data, publications and presentations for this group go here.
-- **Project plan:** [Blue: Cryptosporidiosis](https://docs.google.com/presentation/d/1ykMahn_C9_3RZzKUbI7cQLzNg6ptHl4Us1Qoqzc9vGU)
+- **Project plan:** [Blue: Cryptosporidiosis](https://docs.google.com/document/d/1fkpgSYlQGA0GsVnExQSWIfpCbuVIzpoS_DjwCDoBC28)
 
 ## Notebooks
 

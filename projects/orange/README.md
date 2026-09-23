@@ -1,11 +1,11 @@
 # 🟠 Orange group · Tuberculosis
 
 <!-- description:start -->
-Using AI to support drug discovery for tuberculosis, caused by *Mycobacterium tuberculosis*. _Project details will be added from the project plan in the shared Drive._
+**Finding new drug targets in *Mycobacterium tuberculosis*.** Starting from a proteome of around 5,000 proteins, the group reviews the literature on essentiality to shortlist up to 500 candidates, then assesses computationally which of them are druggable, selective and novel, with an interest in allosteric sites for inhibition.
 <!-- description:end -->
 
 - **Shared Drive folder:** [OrangeTeam](https://drive.google.com/drive/folders/1L452i_YdUzQCUQwIBlvSCHG5Rn95qJId). Data, publications and presentations for this group go here.
-- **Project plan:** [Orange: Tuberculosis](https://docs.google.com/presentation/d/1Ffp0yiNLy6vAM3VXu3Kcp2QfgG_x8P9Ot9Ioqu4yRns)
+- **Project plan:** [Orange: Tuberculosis](https://docs.google.com/document/d/16Vh6i2dz49U-ZaYU2FctAxNXr9Lkg0iuWVfqCFikjCw)
 
 ## Notebooks
 

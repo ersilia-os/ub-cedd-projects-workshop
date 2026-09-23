@@ -1,11 +1,11 @@
 # 🟣 Purple group · HIV
 
 <!-- description:start -->
-Using AI to support drug discovery for HIV, the virus that causes AIDS. _Project details will be added from the project plan in the shared Drive._
+**Machine learning for the discovery of anti-HIV and HDAC1 inhibitors from African natural products.** The group curates HIV-1 whole-cell assay data from ChEMBL, improves the activity model currently in use (better featurisation, handling of class imbalance, interpretable descriptors), and then reuses the same pipeline on a second target, HDAC1, as a proof of concept.
 <!-- description:end -->
 
 - **Shared Drive folder:** [PurpleTeam](https://drive.google.com/drive/folders/1ym6spmjfJze60G52v7rUjbwQ4L_bqik5). Data, publications and presentations for this group go here.
-- **Project plan:** [Purple: HIV](https://docs.google.com/presentation/d/1Igq5d_gt5hVbe3X-u8Fw8M6JOBXO3HqjGpTdlTzHKig)
+- **Project plan:** [Purple: HIV](https://docs.google.com/document/d/1XGHnfHVm5Lmtz0epk3pzXoguQIZq3U25Cz2QOOsyjZE)
 
 ## Notebooks
 

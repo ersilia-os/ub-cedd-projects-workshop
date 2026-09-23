@@ -50,7 +50,7 @@ def groups_sections():
         links = (
             f"[Project folder](projects/{project}/) · "
             f"[Shared Drive folder](https://drive.google.com/drive/folders/{g['team']}) · "
-            f"[Project plan](https://docs.google.com/presentation/d/{g['plan']})"
+            f"[Project plan](https://docs.google.com/{g['plan_kind']}/d/{g['plan']})"
         )
         sections.append(
             f"### {COLORS[project]} {project.capitalize()} group · {disease}\n\n"

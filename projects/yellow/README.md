@@ -1,11 +1,11 @@
 # 🟡 Yellow group · Hypertension
 
 <!-- description:start -->
-Using AI to support drug discovery for hypertension (high blood pressure), a major risk factor for heart disease and stroke. _Project details will be added from the project plan in the shared Drive._
+**AI-driven discovery of new inhibitors of angiotensin-converting enzyme (ACE1) for hypertension**, a disease affecting around a third of Cameroonian adults aged 30–79. The group curates ACE1 inhibition data from ChEMBL, builds a classifier and a regressor, and uses them to predict the activity of selected natural products such as indoles and xanthones, checking first whether those compounds fall inside the models' applicability domain.
 <!-- description:end -->
 
 - **Shared Drive folder:** [YellowTeam](https://drive.google.com/drive/folders/19Xg8Fu8_78R4QFjPXPotB91XCHpTy40h). Data, publications and presentations for this group go here.
-- **Project plan:** [Yellow: Hypertension](https://docs.google.com/presentation/d/17CRZ0wjGJrxvKFwZ9VDbXCRiNY_D0HLW05a0xYRgerQ)
+- **Project plan:** [Yellow: Hypertension](https://docs.google.com/document/d/1kr3k6K3SqIL37-VISkkjuPPYTb0QrlQ7s7ry-bMaqKc)
 
 ## Notebooks
 

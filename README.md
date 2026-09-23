@@ -16,9 +16,9 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 <!-- notebooks:start -->
 ### 🟣 Purple group · HIV
 
-Using AI to support drug discovery for HIV, the virus that causes AIDS. _Project details will be added from the project plan in the shared Drive._
+**Machine learning for the discovery of anti-HIV and HDAC1 inhibitors from African natural products.** The group curates HIV-1 whole-cell assay data from ChEMBL, improves the activity model currently in use (better featurisation, handling of class imbalance, interpretable descriptors), and then reuses the same pipeline on a second target, HDAC1, as a proof of concept.
 
-[Project folder](projects/purple/) · [Shared Drive folder](https://drive.google.com/drive/folders/1ym6spmjfJze60G52v7rUjbwQ4L_bqik5) · [Project plan](https://docs.google.com/presentation/d/1Igq5d_gt5hVbe3X-u8Fw8M6JOBXO3HqjGpTdlTzHKig)
+[Project folder](projects/purple/) · [Shared Drive folder](https://drive.google.com/drive/folders/1ym6spmjfJze60G52v7rUjbwQ4L_bqik5) · [Project plan](https://docs.google.com/document/d/1XGHnfHVm5Lmtz0epk3pzXoguQIZq3U25Cz2QOOsyjZE)
 
 **Notebooks**
 
@@ -26,9 +26,9 @@ Using AI to support drug discovery for HIV, the virus that causes AIDS. _Project
 
 ### 🟡 Yellow group · Hypertension
 
-Using AI to support drug discovery for hypertension (high blood pressure), a major risk factor for heart disease and stroke. _Project details will be added from the project plan in the shared Drive._
+**AI-driven discovery of new inhibitors of angiotensin-converting enzyme (ACE1) for hypertension**, a disease affecting around a third of Cameroonian adults aged 30–79. The group curates ACE1 inhibition data from ChEMBL, builds a classifier and a regressor, and uses them to predict the activity of selected natural products such as indoles and xanthones, checking first whether those compounds fall inside the models' applicability domain.
 
-[Project folder](projects/yellow/) · [Shared Drive folder](https://drive.google.com/drive/folders/19Xg8Fu8_78R4QFjPXPotB91XCHpTy40h) · [Project plan](https://docs.google.com/presentation/d/17CRZ0wjGJrxvKFwZ9VDbXCRiNY_D0HLW05a0xYRgerQ)
+[Project folder](projects/yellow/) · [Shared Drive folder](https://drive.google.com/drive/folders/19Xg8Fu8_78R4QFjPXPotB91XCHpTy40h) · [Project plan](https://docs.google.com/document/d/1kr3k6K3SqIL37-VISkkjuPPYTb0QrlQ7s7ry-bMaqKc)
 
 **Notebooks**
 
@@ -36,9 +36,9 @@ Using AI to support drug discovery for hypertension (high blood pressure), a maj
 
 ### 🟠 Orange group · Tuberculosis
 
-Using AI to support drug discovery for tuberculosis, caused by *Mycobacterium tuberculosis*. _Project details will be added from the project plan in the shared Drive._
+**Finding new drug targets in *Mycobacterium tuberculosis*.** Starting from a proteome of around 5,000 proteins, the group reviews the literature on essentiality to shortlist up to 500 candidates, then assesses computationally which of them are druggable, selective and novel, with an interest in allosteric sites for inhibition.
 
-[Project folder](projects/orange/) · [Shared Drive folder](https://drive.google.com/drive/folders/1L452i_YdUzQCUQwIBlvSCHG5Rn95qJId) · [Project plan](https://docs.google.com/presentation/d/1Ffp0yiNLy6vAM3VXu3Kcp2QfgG_x8P9Ot9Ioqu4yRns)
+[Project folder](projects/orange/) · [Shared Drive folder](https://drive.google.com/drive/folders/1L452i_YdUzQCUQwIBlvSCHG5Rn95qJId) · [Project plan](https://docs.google.com/document/d/16Vh6i2dz49U-ZaYU2FctAxNXr9Lkg0iuWVfqCFikjCw)
 
 **Notebooks**
 
@@ -46,9 +46,9 @@ Using AI to support drug discovery for tuberculosis, caused by *Mycobacterium tu
 
 ### 🔵 Blue group · Cryptosporidiosis
 
-Structure-based drug discovery for cryptosporidiosis, a diarrhoeal disease caused by the parasite *Cryptosporidium parvum*. The group starts from an AlphaFold 3 model of the parasite's ABC1 transporter protein.
+***In silico* generation and validation of silymarin analogues against CpABC1**, an ABC transporter of *Cryptosporidium parvum* sitting at the host–parasite interface. Silymarin inhibits parasite growth, but only at high concentrations, so the group compares AlphaFold and I-TASSER models of the target, derives a pharmacophore from the CpABC1–silymarin complex, and uses it to screen and rank better candidates.
 
-[Project folder](projects/blue/) · [Shared Drive folder](https://drive.google.com/drive/folders/1r2LlyX3ezVJBYe7iv2XHrf9mXQemMNw6) · [Project plan](https://docs.google.com/presentation/d/1ykMahn_C9_3RZzKUbI7cQLzNg6ptHl4Us1Qoqzc9vGU)
+[Project folder](projects/blue/) · [Shared Drive folder](https://drive.google.com/drive/folders/1r2LlyX3ezVJBYe7iv2XHrf9mXQemMNw6) · [Project plan](https://docs.google.com/document/d/1fkpgSYlQGA0GsVnExQSWIfpCbuVIzpoS_DjwCDoBC28)
 
 **Notebooks**
 
