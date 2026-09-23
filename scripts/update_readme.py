@@ -3,46 +3,42 @@
 Rewrites the text between `<!-- notebooks:start -->` and `<!-- notebooks:end -->`.
 """
 
-import json
 import re
-from pathlib import Path
 
-from new_notebook import PROJECTS, ROOT, badge
+import nbformat
+
+from new_notebook import PROJECTS, ROOT, RUNTIMES, badge, get_runtime
 
 START, END = "<!-- notebooks:start -->", "<!-- notebooks:end -->"
 
 
-def notebook_title(path):
-    """Return the first markdown heading of a notebook, or its file name."""
-    nb = json.loads(path.read_text())
-    for cell in nb["cells"]:
-        if cell["cell_type"] == "markdown":
-            match = re.search(r"^#\s+(.+)$", "".join(cell["source"]), re.MULTILINE)
-            if match:
-                return match.group(1).strip()
-    return path.stem
+def notebooks(project):
+    """Return (path, title, runtime label) for each notebook of a project, in order."""
+    rows = []
+    for path in sorted((ROOT / "projects" / project / "notebooks").glob("*.ipynb")):
+        nb = nbformat.read(path, as_version=4)
+        match = re.search(r"^# (.+)$", nb.cells[0].source if nb.cells else "", re.MULTILINE)
+        rows.append((path, match.group(1).strip() if match else path.stem, RUNTIMES.get(get_runtime(nb), "?")))
+    return rows
 
 
 def table(project):
-    """Return a markdown table listing a project's notebooks with Colab badges."""
-    notebooks = sorted((ROOT / "projects" / project / "notebooks").glob("*.ipynb"))
-    if not notebooks:
-        return "_No notebooks yet._"
-    rows = ["| Day | Notebook | Open |", "|---|---|---|"]
-    for path in notebooks:
-        day = path.name.split("_")[0].replace("day", "")
-        rows.append(f"| {day} | {notebook_title(path)} | {badge(path.relative_to(ROOT))} |")
-    return "\n".join(rows)
+    """Return a project README table listing its notebooks with runtime and Colab badge."""
+    rows = ["| # | Notebook | Runtime | Open |", "|---|---|---|---|"]
+    for path, title, runtime in notebooks(project):
+        rows.append(f"| {path.name[:2]} | {title} | {runtime} | {badge(path.relative_to(ROOT))} |")
+    return "\n".join(rows) if len(rows) > 2 else "_No notebooks yet._"
 
 
 def groups_table():
-    """Return the root README table: one row per group with a Colab button per notebook."""
-    rows = ["| Group | Disease | Notebooks |", "|---|---|---|"]
+    """Return the root README table: one row per notebook across all groups."""
+    rows = ["| Group | Disease | Notebook | Runtime | Open |", "|---|---|---|---|---|"]
     for project, disease in PROJECTS.items():
-        notebooks = sorted((ROOT / "projects" / project / "notebooks").glob("*.ipynb"))
-        links = "<br>".join(f"{badge(p.relative_to(ROOT))} Day {p.name.split('_')[0][3:]}" for p in notebooks)
         folder = f"[{project.capitalize()}](projects/{project}/)"
-        rows.append(f"| {folder} | {disease} | {links or '_No notebooks yet._'} |")
+        entries = notebooks(project) or [(None, "_No notebooks yet._", "")]
+        for path, title, runtime in entries:
+            open_cell = badge(path.relative_to(ROOT)) if path else ""
+            rows.append(f"| {folder} | {disease} | {title} | {runtime} | {open_cell} |")
     return "\n".join(rows)
 
 

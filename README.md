@@ -13,19 +13,19 @@ Four groups work on four projects over four days: **Purple** (HIV), **Yellow** (
 ## Notebooks
 
 <!-- notebooks:start -->
-| Group | Disease | Notebooks |
-|---|---|---|
-| [Purple](projects/purple/) | HIV | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/day1_00_hiv.ipynb) Day 1 |
-| [Yellow](projects/yellow/) | Hypertension | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/day1_00_hypertension.ipynb) Day 1 |
-| [Orange](projects/orange/) | Tuberculosis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/day1_00_tuberculosis.ipynb) Day 1 |
-| [Blue](projects/blue/) | Cryptosporidiosis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/day1_00_cryptosporidiosis.ipynb) Day 1 |
+| Group | Disease | Notebook | Runtime | Open |
+|---|---|---|---|---|
+| [Purple](projects/purple/) | HIV | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/01_getting_started.ipynb) |
+| [Yellow](projects/yellow/) | Hypertension | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/01_getting_started.ipynb) |
+| [Orange](projects/orange/) | Tuberculosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/01_getting_started.ipynb) |
+| [Blue](projects/blue/) | Cryptosporidiosis | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/01_getting_started.ipynb) |
 <!-- notebooks:end -->
 
 ## Repository layout
 
 ```
 projects/<color>/
-├── notebooks/        # Colab notebooks, named dayN_XX_title.ipynb
+├── notebooks/        # Colab notebooks, named NN_what_it_does.ipynb
 ├── data/             # data used by the notebooks
 └── requirements.txt  # extra pip packages installed by the setup cell
 ```

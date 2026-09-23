@@ -7,9 +7,9 @@ _Project description to be added._
 Click a badge to open the notebook in Google Colab. Run the first code cell (setup) before anything else.
 
 <!-- notebooks:start -->
-| Day | Notebook | Open |
-|---|---|---|
-| 1 | Cryptosporidiosis | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/day1_00_cryptosporidiosis.ipynb) |
+| # | Notebook | Runtime | Open |
+|---|---|---|---|
+| 01 | Getting started | CPU | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/01_getting_started.ipynb) |
 <!-- notebooks:end -->
 
 ## Data

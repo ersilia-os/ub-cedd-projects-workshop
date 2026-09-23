@@ -1,13 +1,15 @@
-"""Create a Colab-ready notebook skeleton for a workshop project.
+"""Create a Colab-ready notebook with the standard workshop structure.
 
 Usage
 -----
-    python scripts/new_notebook.py <project> <day> "<Title>" [--slug short_name]
+    python scripts/new_notebook.py <project> "<Title>" [--slug short_name] [--runtime cpu|t4|l4|a100]
+
+The title says what the notebook does. Notebooks are numbered in creation order.
 
 Example
 -------
-    python scripts/new_notebook.py purple 2 "Train a first model"
-    -> projects/purple/notebooks/day2_01_train_a_first_model.ipynb
+    python scripts/new_notebook.py purple "Train a first model" --runtime t4
+    -> projects/purple/notebooks/02_train_a_first_model.ipynb
 """
 
 import argparse
@@ -25,10 +27,15 @@ PROJECTS = {
     "orange": "Tuberculosis",
     "blue": "Cryptosporidiosis",
 }
+RUNTIMES = {"cpu": "CPU", "t4": "T4 GPU", "l4": "L4 GPU (Colab Pro)", "a100": "A100 GPU (Colab Pro)"}
 
-SETUP_CELL = '''# Setup: run this cell first. In Colab it downloads the workshop repository and installs requirements.
-PROJECT = "{project}"
-import os, sys, subprocess
+SETUP_INTRO = """## Setup
+
+Run the cell below first. In Colab it downloads the workshop repository (including the data) and installs the packages this project needs. It takes about a minute. Don't change it."""
+
+SETUP_CELL = '''PROJECT = "{project}"
+NEEDS_GPU = {gpu}
+import os, sys, shutil, subprocess
 if "google.colab" in sys.modules:
     repo_dir = "/content/ub-cedd-projects-workshop"
     if not os.path.exists(repo_dir):
@@ -40,7 +47,10 @@ if "google.colab" in sys.modules:
 elif os.path.basename(os.getcwd()) == "notebooks":
     os.chdir("..")
 sys.path.insert(0, os.getcwd())
-print("Working directory:", os.getcwd())'''
+has_gpu = shutil.which("nvidia-smi") is not None and subprocess.run(["nvidia-smi"], capture_output=True).returncode == 0
+print(f"Python {{sys.version.split()[0]}} | GPU: {{'yes' if has_gpu else 'no'}} | Folder: {{os.getcwd()}}")
+if NEEDS_GPU and not has_gpu:
+    print("WARNING: this notebook needs a GPU. Go to Runtime > Change runtime type, choose {runtime_label}, and run this cell again.")'''
 
 
 def colab_url(path):
@@ -58,32 +68,58 @@ def slugify(text):
     return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
 
 
+def header_line(project):
+    """Return the group and disease line shown under the notebook title."""
+    return f"**{project.capitalize()} group · {PROJECTS[project]}**"
+
+
+def get_runtime(nb):
+    """Return the runtime key (cpu, t4, l4, a100) stored in a notebook's metadata."""
+    return nb.metadata.get("colab", {}).get("gpuType", "cpu").lower()
+
+
+def setup_source(project, runtime):
+    """Return the exact source of the setup cell for a project and runtime."""
+    return SETUP_CELL.format(project=project, gpu=runtime != "cpu", runtime_label=RUNTIMES[runtime], repo=REPO)
+
+
+def build_notebook(rel, project, title, runtime):
+    """Return a new notebook with the standard structure (see CLAUDE.md)."""
+    nb = nbformat.v4.new_notebook()
+    nb.metadata["kernelspec"] = {"name": "python3", "display_name": "Python 3", "language": "python"}
+    nb.metadata["colab"] = {"provenance": []}
+    if runtime != "cpu":
+        nb.metadata["accelerator"] = "GPU"
+        nb.metadata["colab"]["gpuType"] = runtime.upper()
+    md, code = nbformat.v4.new_markdown_cell, nbformat.v4.new_code_cell
+    nb.cells = [
+        md(f"{badge(rel)}\n\n# {title}\n\n{header_line(project)}\n\n_One or two sentences on what this notebook is about and why it matters for the project._"),
+        md("## What you will do\n\n- _First objective_\n- _Second objective_"),
+        md(SETUP_INTRO),
+        code(setup_source(project, runtime)),
+        md("## 1. First section\n\n_Explain what this section does before the code._"),
+        code(""),
+        md("## Summary\n\n- _What we did and the key result_\n\n**Next:** _the next notebook, or what to try next._"),
+    ]
+    return nb
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("project", choices=list(PROJECTS))
-    parser.add_argument("day", type=int, choices=[1, 2, 3, 4])
     parser.add_argument("title")
     parser.add_argument("--slug", default=None)
+    parser.add_argument("--runtime", choices=list(RUNTIMES), default="cpu", help="Colab runtime the notebook needs")
     args = parser.parse_args()
 
     nb_dir = ROOT / "projects" / args.project / "notebooks"
     nb_dir.mkdir(parents=True, exist_ok=True)
-    existing = sorted(nb_dir.glob(f"day{args.day}_*.ipynb"))
-    index = len(existing)
-    name = f"day{args.day}_{index:02d}_{args.slug or slugify(args.title)}.ipynb"
-    path = nb_dir / name
+    index = len(list(nb_dir.glob("[0-9][0-9]_*.ipynb"))) + 1
+    path = nb_dir / f"{index:02d}_{args.slug or slugify(args.title)}.ipynb"
     if path.exists():
         raise SystemExit(f"{path} already exists")
-
     rel = path.relative_to(ROOT)
-    nb = nbformat.v4.new_notebook()
-    nb.metadata["kernelspec"] = {"name": "python3", "display_name": "Python 3", "language": "python"}
-    nb.metadata["colab"] = {"provenance": []}
-    nb.cells = [
-        nbformat.v4.new_markdown_cell(f"{badge(rel)}\n\n# {args.title}\n\n**{args.project.capitalize()} group ({PROJECTS[args.project]}) · Day {args.day}**\n\n_Describe what this notebook does._"),
-        nbformat.v4.new_code_cell(SETUP_CELL.format(project=args.project, repo=REPO)),
-    ]
-    nbformat.write(nb, path)
+    nbformat.write(build_notebook(rel, args.project, args.title, args.runtime), path)
     print(rel)
 
 
