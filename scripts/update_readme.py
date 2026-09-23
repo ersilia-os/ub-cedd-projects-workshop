@@ -3,6 +3,7 @@
 Rewrites the text between `<!-- notebooks:start -->` and `<!-- notebooks:end -->`.
 """
 
+import json
 import re
 
 import nbformat
@@ -23,24 +24,35 @@ def notebooks(project):
     return sorted(rows)
 
 
-def table(project):
-    """Return a project README table listing its notebooks with runtime and Colab badge."""
-    rows = ["| # | Notebook | Runtime | Open |", "|---|---|---|---|"]
-    for order, path, title, runtime in notebooks(project):
-        rows.append(f"| {order} | {title} | {runtime} | {badge(path.relative_to(ROOT))} |")
-    return "\n".join(rows) if len(rows) > 2 else "_No notebooks yet._"
+def description(project):
+    """Return the hand-written description between the markers in a project README."""
+    text = (ROOT / "projects" / project / "README.md").read_text()
+    match = re.search(r"<!-- description:start -->\n(.*?)\n<!-- description:end -->", text, re.DOTALL)
+    return match.group(1).strip() if match else ""
 
 
-def groups_table():
-    """Return the root README table: one row per notebook across all groups."""
-    rows = ["| Group | Disease | Notebook | Runtime | Open |", "|---|---|---|---|---|"]
+def notebook_list(project):
+    """Return a markdown list of a project's notebooks: Colab button, title, runtime."""
+    items = [
+        f"{order}. {badge(path.relative_to(ROOT))} **{title}** · {runtime}"
+        for order, path, title, runtime in notebooks(project)
+    ]
+    return "\n".join(items) or "_No notebooks yet._"
+
+
+def groups_sections():
+    """Return the root README section for each group: description, links and notebooks."""
+    drive = json.loads((ROOT / "drive.json").read_text())["groups"]
+    sections = []
     for project, disease in PROJECTS.items():
-        folder = f"[{project.capitalize()}](projects/{project}/)"
-        entries = notebooks(project) or [(0, None, "_No notebooks yet._", "")]
-        for _, path, title, runtime in entries:
-            open_cell = badge(path.relative_to(ROOT)) if path else ""
-            rows.append(f"| {folder} | {disease} | {title} | {runtime} | {open_cell} |")
-    return "\n".join(rows)
+        g = drive[project]
+        links = (
+            f"[Project folder](projects/{project}/) · "
+            f"[Shared Drive folder](https://drive.google.com/drive/folders/{g['team']}) · "
+            f"[Project plan](https://docs.google.com/presentation/d/{g['plan']})"
+        )
+        sections.append(f"### {project.capitalize()} · {disease}\n\n{description(project)}\n\n{links}\n\n{notebook_list(project)}")
+    return "\n\n".join(sections)
 
 
 def replace_block(readme, content):
@@ -55,8 +67,8 @@ def replace_block(readme, content):
 
 def main():
     for project in PROJECTS:
-        replace_block(ROOT / "projects" / project / "README.md", table(project))
-    replace_block(ROOT / "README.md", groups_table())
+        replace_block(ROOT / "projects" / project / "README.md", notebook_list(project))
+    replace_block(ROOT / "README.md", groups_sections())
     print("READMEs updated")
 
 
