@@ -13,6 +13,7 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 
 <!-- notebooks:start -->
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_chemical_space.ipynb) &nbsp;**Exploring the chemical space of the CpABC1 pharmacophore hits** · _CPU_
 <!-- notebooks:end -->
 
 ## Data
