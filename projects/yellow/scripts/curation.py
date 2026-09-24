@@ -38,8 +38,8 @@ MASS_UNITS = {"ug.mL-1", "ug ml-1", "ug/mL"}
 INACTIVE_COMMENTS = ["not active", "inactive", "no significant activity", "no activity"]
 
 # What ChEMBL's `src_id` numbers mean, for the ones that appear in the ACE data.
-CHEMBL_SOURCES = {"1": "ChEMBL (literature)", "15": "ChEMBL (DrugMatrix screen)",
-                  "37": "ChEMBL (BindingDB patents)"}
+CHEMBL_SOURCES = {"1": "ChEMBL (Scientific Literature)", "15": "ChEMBL (DrugMatrix)",
+                  "37": "ChEMBL (BindingDB Patent Bioactivity Data)"}
 
 PUBCHEM_API = "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
 
@@ -83,16 +83,21 @@ def load_chembl(path):
         "smiles": "canonical_smiles", "comment": "activity_comment", "source_id": "src_id"})
     _require(t, ["canonical_smiles", "standard_type", "standard_relation",
                  "standard_value", "standard_units"], path)
-    for column in ["activity_id", "src_id", "document_chembl_id", "assay_chembl_id",
-                   "activity_comment", "standard_text_value", "data_validity_comment",
-                   "pchembl_value"]:
+    for column in ["activity_id", "src_id", "source_description", "document_chembl_id",
+                   "assay_chembl_id", "molecule_chembl_id", "activity_comment",
+                   "standard_text_value", "data_validity_comment", "pchembl_value"]:
         if column not in t:
             t[column] = np.nan
-    record = t["activity_id"].fillna(pd.Series(t.index.astype(str), index=t.index))
+    # The website export has no activity id, so a record is named by its assay, its
+    # molecule and its row in the file instead.
+    fallback = (t["assay_chembl_id"].fillna("") + ":" + t["molecule_chembl_id"].fillna("")
+                + ":row" + t.index.astype(str))
+    described = "ChEMBL (" + t["source_description"] + ")"
     return pd.DataFrame({
         "source": "chembl",
-        "record_id": "chembl:" + record,
-        "depositor": t["src_id"].map(CHEMBL_SOURCES).fillna("ChEMBL (other)"),
+        "record_id": "chembl:" + t["activity_id"].fillna(fallback),
+        "depositor": described.fillna(t["src_id"].map(CHEMBL_SOURCES))
+                              .fillna("ChEMBL (other)"),
         "reference": t["document_chembl_id"],
         "assay": t["assay_chembl_id"],
         "smiles_in": t["canonical_smiles"],
@@ -103,7 +108,8 @@ def load_chembl(path):
         # The website export has both; ChEMBL often writes "Not active" in the text
         # value and the reason (e.g. "Inhibition < 50% @ 10 uM") in the comment.
         "comment": t["activity_comment"].str.cat(t["standard_text_value"], sep=" | ",
-                                                 na_rep="").str.strip(" |"),
+                                                 na_rep="").str.strip(" |")
+                                        .replace("", np.nan),
         "validity": t["data_validity_comment"],
         "pchembl_db": t["pchembl_value"],
     })

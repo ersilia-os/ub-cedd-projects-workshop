@@ -75,6 +75,8 @@ def load_downloads(paths):
                 f"{path} has no column called {' or '.join(absent)}. "
                 f"It has: {', '.join(sorted(frame.columns))}"
             )
+        # The website export writes the relation in quotes ('=', '>').
+        frame["standard_relation"] = frame["standard_relation"].str.strip("'\" ")
         for column in OPTIONAL_COLUMNS:
             if column not in frame:
                 frame[column] = np.nan

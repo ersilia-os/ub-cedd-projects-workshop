@@ -4,18 +4,13 @@ Participants: put data files in the Drive folder **Projects/PurpleTeam/Data**, n
 
 | File | Drive file | Drive ID | Drive modified | Copied on | Original source |
 |---|---|---|---|---|---|
+| `chembl378_ec50.csv` | chembl378_ec50.csv | `16rKoCtdTWWb3XYshADsP2Em3coflrDsP` | 2026-09-23T12:32:45Z | 2026-09-24 | ChEMBL website export, EC50 activities for target CHEMBL378 (Human immunodeficiency virus 1) |
+| `chembl378_ic50.csv` | chembl378_ic50.csv | `1t72ghL8brmopl_bL2ydWNNu_Wwm55Cti` | 2026-09-23T12:32:09Z | 2026-09-24 | ChEMBL website export, IC50 activities for target CHEMBL378 (Human immunodeficiency virus 1) |
 
-Nothing has been copied from the Drive yet.
+`notebooks/purple_data_curation.ipynb` reads both files.
 
-`notebooks/purple_data_curation.ipynb` does not read anything from this folder that is
-kept in the repository. It works on two ChEMBL exports that participants download
-themselves, `chembl378_ec50.csv` and `chembl378_ic50.csv`: the activities recorded
-against target `CHEMBL378` (Human immunodeficiency virus 1), one file per standard
-type. In Colab the notebook asks for them to be uploaded at the start. They are
-deliberately not committed, so `projects/*/data/chembl*.csv` is in `.gitignore`.
-
-The notebook's own output, `hiv1_curated.csv`, is not saved here either. Colab loses
-anything written to disk when the runtime disconnects, so the notebook downloads it to
-the participant's computer instead. If the group uploads it to
+The notebook's own output, `hiv1_curated.csv`, is not saved here. Colab loses anything
+written to disk when the runtime disconnects, so the notebook downloads it to the
+participant's computer instead. If the group uploads it to
 **Projects/PurpleTeam/Data**, it can then be copied into this folder like any other
 participant file, with a row added to the table above.
