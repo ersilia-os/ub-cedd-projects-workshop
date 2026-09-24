@@ -43,6 +43,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 **Notebooks**
 
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_target_selection.ipynb) &nbsp;**Selecting vulnerable essential targets in M. tuberculosis** · _CPU_
 
 ### 🔵 Blue group · Cryptosporidiosis
 

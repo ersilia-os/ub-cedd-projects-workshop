@@ -13,6 +13,7 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 
 <!-- notebooks:start -->
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_target_selection.ipynb) &nbsp;**Selecting vulnerable essential targets in M. tuberculosis** · _CPU_
 <!-- notebooks:end -->
 
 ## Data
