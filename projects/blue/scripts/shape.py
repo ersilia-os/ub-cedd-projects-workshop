@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import stylia
 from rdkit import Chem, DataStructs, RDLogger
-from rdkit.Chem import Draw, rdFingerprintGenerator
+from rdkit.Chem import AllChem, Draw, rdFingerprintGenerator, rdMolAlign, rdShapeHelpers
 
 # RDKit prints a warning for every molecule it cannot read. We count them instead.
 RDLogger.DisableLog("rdApp.*")
@@ -39,19 +39,29 @@ def check_normalised(vectors):
     return np.linalg.norm(vectors, axis=1)
 
 
+def _unit(vectors):
+    """Return the vectors scaled to length 1, which is what makes a dot product a cosine."""
+    lengths = np.linalg.norm(vectors, axis=-1, keepdims=True)
+    return vectors / np.where(lengths == 0, 1, lengths)
+
+
 def shape_similarity(vectors, seed_vector):
-    """Return the cosine similarity of every molecule to the seed."""
-    return vectors @ seed_vector
+    """Return the cosine similarity of every molecule to the seed.
+
+    The model already returns vectors of length 1, but we divide by the lengths anyway so
+    that this is a cosine whatever comes in.
+    """
+    return _unit(vectors) @ _unit(seed_vector)
 
 
 def shape_background(vectors, sample=4000, seed=42):
-    """Return the shape similarity of random pairs of molecules, for comparison.
+    """Return the cosine similarity of random pairs of molecules, for comparison.
 
     A similarity is only meaningful next to the similarities you would get anyway. This
     takes a random sample of the molecules and returns every pair within it.
     """
     rng = np.random.default_rng(seed)
-    picked = vectors[rng.choice(len(vectors), min(sample, len(vectors)), replace=False)]
+    picked = _unit(vectors[rng.choice(len(vectors), min(sample, len(vectors)), replace=False)])
     pairs = picked @ picked.T
     return pairs[np.triu_indices(len(picked), k=1)]
 
@@ -101,6 +111,45 @@ def plot_agreement(ax, shape, tanimoto, title=None):
     ax.scatter(tanimoto, shape, s=2, alpha=0.15, color=colors.cobalt, linewidths=0)
     stylia.label(ax, xlabel="Tanimoto similarity (2D)",
                  ylabel="Shape similarity (SAND)", title=title)
+
+
+def overlay_on(smiles, reference, conformers=20, seed=42):
+    """Build 3D forms of a molecule and lay the best-fitting one over the reference.
+
+    SAND predicts how well two molecules would overlap without ever building them in 3D.
+    This does the real thing, so its prediction can be checked: generate conformers (the
+    shapes the molecule can fold into), lay each over the reference with Open3DAlign, and
+    keep whichever fits best.
+
+    Returns the aligned molecule, the id of the best conformer, and the shape Tanimoto
+    similarity, which runs from 0 to 1.
+    """
+    molecule = Chem.AddHs(Chem.MolFromSmiles(smiles))
+    parameters = AllChem.ETKDGv3()
+    parameters.randomSeed = seed
+    AllChem.EmbedMultipleConfs(molecule, numConfs=conformers, params=parameters)
+    AllChem.MMFFOptimizeMoleculeConfs(molecule)
+    molecule = Chem.RemoveHs(molecule)
+
+    best = (-1.0, None)
+    for conformer in range(molecule.GetNumConformers()):
+        rdMolAlign.GetCrippenO3A(molecule, reference, prbCid=conformer).Align()
+        similarity = 1 - rdShapeHelpers.ShapeTanimotoDist(molecule, reference, confId1=conformer)
+        best = max(best, (similarity, conformer))
+    return molecule, best[1], best[0]
+
+
+def view_overlay(reference, molecule, conformer, width=260, height=220):
+    """Show one molecule laid over the reference, the reference in grey."""
+    import py3Dmol
+
+    view = py3Dmol.view(width=width, height=height)
+    view.addModel(Chem.MolToMolBlock(reference), "sdf")
+    view.setStyle({"model": 0}, {"stick": {"colorscheme": "greyCarbon", "radius": 0.12}})
+    view.addModel(Chem.MolToMolBlock(molecule, confId=conformer), "sdf")
+    view.setStyle({"model": 1}, {"stick": {"colorscheme": "cyanCarbon", "radius": 0.12}})
+    view.zoomTo()
+    return view
 
 
 def draw_molecules(smiles_list, legends, per_row=4, size=(260, 220)):
