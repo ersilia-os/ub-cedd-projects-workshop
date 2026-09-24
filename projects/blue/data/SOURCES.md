@@ -11,15 +11,21 @@ Participants: put data files in the Drive folder **Projects/BlueTeam/Data**, not
 | `cpabc1_receptor.pdb` | (derived, not in Drive) | | | 2026-09-24 | The protein heavy atoms of `cpabc1_silymarin.pdb` (11,435 atoms, chain A), same coordinates |
 | `silymarin_ligand.sdf` | (derived, not in Drive) | | | 2026-09-24 | The silybin heavy atoms of `cpabc1_silymarin.pdb` (35 atoms), written with RDKit, same coordinates |
 
-`notebooks/blue_chemical_space.ipynb` reads the first three files. The three structure files are
-read by the sandbox notebooks `sandbox/pharmaconet_to_pharmit.ipynb` (receptor and ligand) and
-`sandbox/gnina_docking_screen.ipynb` (complex) when they run locally.
+`notebooks/blue_chemical_space.ipynb` reads the first three files. `cpabc1_receptor.pdb` and
+`silymarin_ligand.sdf` are read by `notebooks/blue_pharmacophore.ipynb`, and the complex by the
+sandbox notebook `sandbox/gnina_docking_screen.ipynb` when it runs locally.
 
 The pharmacophore itself came from the CpABC1–silymarin complex in
 **Projects/BlueTeam/Data/Preliminary_data** (`CpABC1-Silymarin.pdb`, `Sil.sdf`) by way of
 PharmacoNet and PharmacoForge; the Pharmit sessions and the minimised poses are in
 **Pharmit_Pharmacoforge_&_outputs**. Only the complex is copied here (above), plus the
 receptor and ligand split out of it. `Sil.sdf`, the Pharmit sessions and the poses are not.
+
+The two Pharmit result files (`provisional_pharmit_query_results_1.sdf`, 28 MB, Drive ID
+`1X2HjfiGu5-f6VJrDHtgcEa6pCxB4yJRX`, and `..._2.sdf`, 140 MB, `19GBjbEhGeBhgPtOHRe0pdfT7ROm011O9`,
+both in **Data/provisional_pharmit_results**) are too large for the repository.
+`notebooks/blue_pharmit_hits.ipynb` asks you to upload them from Drive, or reads them from
+`data/downloads/` when it runs locally.
 
 The seed's stereocentres in `Sil.sdf` are inferred from the docked 3D pose and match
 neither silybin A nor silybin B, so the flat SMILES above is what goes through the model.

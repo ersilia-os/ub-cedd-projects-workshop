@@ -1,3 +1,8 @@
 # Extra packages for this project. Colab already provides numpy, pandas, scikit-learn and matplotlib.
 rdkit
 stylia
+py3Dmol
+gdown
+# PharmacoNet has no PyPI release, so it is installed from GitHub at a pinned commit.
+# It declares requires-python >=3.10,<3.13, so the marker keeps pip from failing on 3.13.
+pharmaconet @ git+https://github.com/SeonghwanSeo/PharmacoNet.git@0f2feec4e398b618fa04ce6eca8f86d2855160f4 ; python_version < "3.13"
