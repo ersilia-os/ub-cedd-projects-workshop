@@ -5,6 +5,9 @@ The decisions (which records to keep, which cutoff to use, how to merge the two
 endpoints) are deliberately left in the notebook, not hidden in here.
 """
 
+import os
+import sys
+
 import numpy as np
 import pandas as pd
 
@@ -249,3 +252,25 @@ def decisive_bounds(df, key, cutoff_nm, keep_inactive=True, keep_active=True):
     bounded = pd.concat(pieces)
     bounded["n_exact"] = 0
     return bounded
+
+
+def smiles_for_ersilia(smiles):
+    """Return a one-column table, headed `smiles`, ready to use as Ersilia input."""
+    smiles = pd.Series(smiles).dropna().drop_duplicates()
+    return pd.DataFrame({"smiles": smiles.to_numpy()})
+
+
+def save_output(table, filename, index=True):
+    """Write a table to `outputs/` and, in Colab, download it to your computer.
+
+    Colab deletes its files when it disconnects, so the download is the copy that
+    lasts. Upload it to the group's Drive folder afterwards.
+    """
+    os.makedirs("outputs", exist_ok=True)
+    path = os.path.join("outputs", filename)
+    table.to_csv(path, index=index)
+    if "google.colab" in sys.modules:
+        from google.colab import files
+        files.download(path)
+    print(f"{len(table):,} rows written to {path} ({os.path.getsize(path) / 1e6:.1f} MB)")
+    return path
