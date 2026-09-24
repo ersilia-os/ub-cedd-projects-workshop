@@ -23,8 +23,8 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 **Notebooks**
 
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_data_curation.ipynb) &nbsp;**Curating HIV-1 activity data from ChEMBL** · _CPU_
-2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_baseline_models.ipynb) &nbsp;**Training baseline models for HIV-1 activity** · _CPU_
-3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_chemical_space.ipynb) &nbsp;**Exploring the chemical space of the HIV-1 dataset** · _CPU_
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_chemical_space.ipynb) &nbsp;**Exploring the chemical space of the HIV-1 dataset** · _CPU_
+3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_baseline_models.ipynb) &nbsp;**Training baseline models for HIV-1 activity** · _CPU_
 
 ### 🟡 Yellow group · Hypertension
 
