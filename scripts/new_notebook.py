@@ -48,6 +48,8 @@ if "google.colab" in sys.modules:
 elif os.path.basename(os.getcwd()) == "notebooks":
     os.chdir("..")
 sys.path.insert(0, os.getcwd())
+for _cached in [m for m in sys.modules if m == "scripts" or m.startswith("scripts.")]:
+    del sys.modules[_cached]  # forget helper modules imported before the pull above
 has_gpu = shutil.which("nvidia-smi") is not None and subprocess.run(["nvidia-smi"], capture_output=True).returncode == 0
 print(f"Python {{sys.version.split()[0]}} | GPU: {{'yes' if has_gpu else 'no'}} | Folder: {{os.getcwd()}}")
 if NEEDS_GPU and not has_gpu:
