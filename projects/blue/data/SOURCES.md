@@ -6,7 +6,7 @@ Participants: put data files in the Drive folder **Projects/BlueTeam/Data**, not
 |---|---|---|---|---|---|
 | `pharmit_hits_molport.csv` | provisional_pharmit_results/pharmit_hits_molport_nonredundant.csv | `19k3hXJoaT2U1iAO_HYFFqYyEcuFu1237` | 2026-09-24T13:37:55Z | 2026-09-24 | The 28,732 non-redundant hits of the [Pharmit](https://pharmit.csb.pitt.edu) screen of the MolPort purchasable library against the CpABC1 pharmacophore, with their MolPort catalogue numbers |
 | `eos1klk_pharmit_hits.csv` | eos1klk_pharmit_hits.csv | `1n4kw025Lm1ZJ-NxUHB0A1Q9giQ8qV7-Z` | 2026-09-24T15:30:47Z | 2026-09-24 | Those same 28,732 molecules run through the Ersilia model [eos1klk](https://github.com/ersilia-os/eos1klk), which returns PCA, t-SNE, UMAP and TMAP coordinates on a map of 1.3M reference compounds |
-| `eos1klk_silymarin.csv` | _not yet in Drive_ | — | — | — | Silymarin, the seed the pharmacophore was built from, run through the same model so it can be drawn on the same maps. Written without stereochemistry as `COc1cc(C2Oc3cc(C4Oc5cc(O)cc(O)c5C(=O)C4O)ccc3OC2CO)ccc1O` |
+| `eos1klk_silymarin.csv` | eos1klk_silymarin.csv | `1gh1jGrluSvocB3VgJRCkD5k_tvYbKlSD` | 2026-09-24T16:23:12Z | 2026-09-24 | Silymarin, the seed the pharmacophore was built from, run through the same model so it can be drawn on the same maps. Written without stereochemistry as `COc1cc(C2Oc3cc(C4Oc5cc(O)cc(O)c5C(=O)C4O)ccc3OC2CO)ccc1O` |
 
 `notebooks/blue_chemical_space.ipynb` reads all three files.
 
