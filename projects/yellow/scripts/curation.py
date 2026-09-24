@@ -87,7 +87,7 @@ def load_chembl(path):
                    "assay_chembl_id", "molecule_chembl_id", "activity_comment",
                    "standard_text_value", "data_validity_comment", "pchembl_value"]:
         if column not in t:
-            t[column] = np.nan
+            t[column] = pd.Series(np.nan, index=t.index, dtype=object)
     # The website export has no activity id, so a record is named by its assay, its
     # molecule and its row in the file instead.
     fallback = (t["assay_chembl_id"].fillna("") + ":" + t["molecule_chembl_id"].fillna("")
@@ -126,13 +126,18 @@ def load_bindingdb(path):
     with open(path, encoding="utf-8-sig") as handle:
         header = handle.readline().rstrip("\r\n").split("\t")
         rows = [line.rstrip("\r\n").split("\t")[:len(header)] for line in handle]
-    t = pd.DataFrame(rows, columns=header).replace("", np.nan)
+    # dtype=object keeps empty columns as text; otherwise older pandas turns a column
+    # with no values into numbers and the `.str` calls below fail.
+    t = pd.DataFrame(rows, columns=header, dtype=object)
+    t = t.mask(t == "", None).astype(object)
     _require(t, ["Ligand SMILES", "Curation/DataSource"], path)
     wide = {"Ki": "Ki (nM)", "IC50": "IC50 (nM)", "Kd": "Kd (nM)", "EC50": "EC50 (nM)"}
     pieces = []
     for endpoint, column in wide.items():
         part = t[t[column].notna()]
-        raw = part[column].str.strip()
+        if part.empty:
+            continue
+        raw = part[column].astype(str).str.strip()
         paper = ("pmid:" + part["PMID"]).fillna("doi:" + part["Article DOI"])
         pieces.append(pd.DataFrame({
             "source": "bindingdb",
@@ -220,7 +225,7 @@ def load_manual(path):
     _require(t, ["smiles", "standard_type", "standard_value", "standard_unit"], path)
     for column in ["compound_id", "source", "reference"]:
         if column not in t:
-            t[column] = np.nan
+            t[column] = pd.Series(np.nan, index=t.index, dtype=object)
     record = t["compound_id"].fillna(pd.Series(t.index.astype(str), index=t.index))
     return pd.DataFrame({
         "source": "manual",

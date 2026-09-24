@@ -79,7 +79,7 @@ def load_downloads(paths):
         frame["standard_relation"] = frame["standard_relation"].str.strip("'\" ")
         for column in OPTIONAL_COLUMNS:
             if column not in frame:
-                frame[column] = np.nan
+                frame[column] = pd.Series(np.nan, index=frame.index, dtype=object)
         frame["endpoint"] = endpoint
         frames.append(frame)
     return pd.concat(frames, ignore_index=True)
