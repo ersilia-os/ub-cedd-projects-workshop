@@ -1,3 +1,11 @@
+# Manually added
+bigfiles/
+.DS_Store
+sandbox/work/
+
+# Large model weights fetched at run time, never committed (see projects/*/data/SOURCES.md).
+tools/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
