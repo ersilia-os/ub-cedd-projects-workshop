@@ -30,15 +30,16 @@ STRUCTURE_FOLDER = "data/downloads/structures"
 def _get(url, attempts=3):
     """GET a URL, trying again if the connection drops.
 
-    With eight requests in flight, a public server occasionally closes one of them.
-    A 404 is returned as it is: it means "nothing here", which callers handle.
+    With eight requests in flight, a public server occasionally closes one of them or
+    answers too slowly. A 404 is returned as it is: it means "nothing here", which
+    callers handle.
     """
     for attempt in range(attempts):
         try:
             response = requests.get(url, timeout=120)
             if response.status_code == 404 or response.ok:
                 return response
-        except requests.ConnectionError:
+        except (requests.ConnectionError, requests.Timeout):
             if attempt == attempts - 1:
                 raise
         time.sleep(2 ** attempt)
@@ -194,11 +195,18 @@ def download_structure(row, folder=STRUCTURE_FOLDER):
     if os.path.exists(path) and os.path.getsize(path) > 0:
         return path
     os.makedirs(folder, exist_ok=True)
+    # Write under a temporary name and rename at the end, so an interrupted download
+    # never leaves a half-written file that the check above would take as finished.
+    partial = path + ".part"
     if row["structure_source"] == "AlphaFold":
+        if pd.isna(row["af_url"]):
+            raise ValueError(f"{row['uniprot_ac']} has no AlphaFold model, so it needs a "
+                             "PDB structure. Try a lower MIN_COVERAGE.")
         response = _get(row["af_url"])
         response.raise_for_status()
-        with open(path, "w") as f:
+        with open(partial, "w") as f:
             f.write(response.text)
+        os.replace(partial, path)
         return path
 
     response = _get(RCSB_CHAIN.format(row["pdb_id"], row["chain"]))
@@ -215,7 +223,8 @@ def download_structure(row, folder=STRUCTURE_FOLDER):
     # Large cryo-EM entries use chain names like `AAA`, which the PDB format cannot
     # hold. The file has one chain only, so it can simply be called A.
     model[0].name = "A"
-    structure.write_pdb(path)
+    structure.write_pdb(partial)
+    os.replace(partial, path)
     return path
 
 

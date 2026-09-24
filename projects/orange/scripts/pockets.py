@@ -62,8 +62,13 @@ def find_java():
     if "google.colab" not in sys.modules:
         raise RuntimeError("P2Rank needs Java 17 or newer. Install it, e.g. "
                            "`conda install -c conda-forge openjdk=17`.")
-    subprocess.run(["apt-get", "install", "-y", "-qq", "openjdk-17-jre-headless"],
-                   check=True, capture_output=True)
+    # A fresh Colab runtime may have stale package lists, so refresh them first.
+    for command in [["apt-get", "update", "-qq"],
+                    ["apt-get", "install", "-y", "-qq", "openjdk-17-jre-headless"]]:
+        result = subprocess.run(command, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f"Installing Java failed ({' '.join(command)}):\n"
+                               f"{result.stderr[-2000:]}")
     return COLAB_JAVA_HOME
 
 
@@ -83,14 +88,23 @@ def install_p2rank(folder=P2RANK_FOLDER):
     str
         Path to the `prank` program.
     """
-    prank = os.path.join(folder, f"p2rank_{P2RANK_VERSION}", "prank")
+    name = f"p2rank_{P2RANK_VERSION}"
+    prank = os.path.join(folder, name, "prank")
     if not os.path.exists(prank):
         os.makedirs(folder, exist_ok=True)
-        archive = os.path.join(folder, f"p2rank_{P2RANK_VERSION}.tar.gz")
+        archive = os.path.join(folder, f"{name}.tar.gz")
         if not os.path.exists(archive):
-            urllib.request.urlretrieve(P2RANK_URL, archive)
+            # Download and unpack under temporary names and only then move into place,
+            # so an interrupted run never leaves something that looks finished.
+            urllib.request.urlretrieve(P2RANK_URL, archive + ".part")
+            os.replace(archive + ".part", archive)
+        unpacking = os.path.join(folder, f"{name}.unpacking")
+        shutil.rmtree(unpacking, ignore_errors=True)
         with tarfile.open(archive) as tar:
-            tar.extractall(folder)
+            tar.extractall(unpacking, filter="data")
+        shutil.rmtree(os.path.join(folder, name), ignore_errors=True)
+        os.replace(os.path.join(unpacking, name), os.path.join(folder, name))
+        os.rmdir(unpacking)
         os.remove(archive)
     return prank
 
@@ -109,7 +123,8 @@ def run_p2rank(prank, files, out_dir, config=None, threads=2):
         Structure files (PDB format).
     out_dir : str
         Folder for the results. P2Rank writes a `<file>_predictions.csv` here for
-        every structure.
+        every structure. Anything already in it is deleted first, so results from an
+        earlier run can never be mixed in.
     config : str, optional
         A P2Rank profile. `alphafold` is the one for predicted structures, cryo-EM
         and NMR; None uses the default, trained on X-ray crystal structures.
@@ -121,7 +136,8 @@ def run_p2rank(prank, files, out_dir, config=None, threads=2):
     str
         `out_dir`.
     """
-    os.makedirs(out_dir, exist_ok=True)
+    shutil.rmtree(out_dir, ignore_errors=True)
+    os.makedirs(out_dir)
     dataset = os.path.join(out_dir, "structures.ds")
     with open(dataset, "w") as f:
         f.write("\n".join(os.path.abspath(p) for p in files) + "\n")
