@@ -14,3 +14,7 @@ GitHub's own viewer, which cannot run anything.
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/sandbox/sif_feasibility_test.ipynb) &nbsp;**Ersilia SIF feasibility test** · can an Ersilia `.sif` run in Colab?
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/sandbox/pharmacoforge_smoke_test.ipynb) &nbsp;**PharmacoForge smoke test** · does PharmacoForge run in Colab?
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/sandbox/pharmaconet_smoke_test.ipynb) &nbsp;**PharmacoNet smoke test** · does PharmacoNet run in Colab, on the blue group's CpABC1 complex?
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/sandbox/gnina_docking_screen.ipynb) &nbsp;**gnina docking screen** · can we upload a complex, redock its ligand and screen a library in the same pocket?
+
+`silymarin_analogues.csv` belongs to the gnina notebook: sixteen public silymarin-related
+compounds with their PubChem CIDs, downloaded by the notebook over its raw GitHub URL.

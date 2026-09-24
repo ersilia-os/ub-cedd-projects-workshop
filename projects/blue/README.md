@@ -13,7 +13,6 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 
 <!-- notebooks:start -->
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
-2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_docking_screen.ipynb) &nbsp;**Dock a compound library into CpABC1** · _T4 GPU_
 <!-- notebooks:end -->
 
 ## Data
