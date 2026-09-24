@@ -2,3 +2,6 @@
 openpyxl
 stylia
 gemmi
+esm
+umap-learn
+openTSNE

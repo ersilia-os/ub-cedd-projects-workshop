@@ -15,6 +15,8 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_target_selection.ipynb) &nbsp;**Selecting essential targets in M. tuberculosis** · _CPU_
 2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_protein_structures.ipynb) &nbsp;**Finding a 3D structure for every target** · _CPU_
 3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_pocket_detection.ipynb) &nbsp;**Finding binding pockets with P2Rank** · _CPU_
+4. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_mtb_proteome_embeddings.ipynb) &nbsp;**Compute ESM-C embeddings for the Mtb proteome** · _T4 GPU_
+5. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_essential_proteins_projections.ipynb) &nbsp;**Map essential proteins with UMAP and t-SNE** · _CPU_
 <!-- notebooks:end -->
 
 ## Data

@@ -34,3 +34,9 @@ table above, and the next notebook reads it:
 
 The structure files and P2Rank itself are downloaded at run time into
 `data/downloads/`, which is not committed.
+
+`orange_mtb_proteome_embeddings` downloads the *M. tuberculosis* H37Rv reference proteome
+(`UP000001584`) from the UniProt REST API into `data/downloads/`. It and
+`orange_essential_proteins_projections` read and write large files (ESM-C embeddings,
+UMAP and t-SNE coordinates, the essential protein list) in `bigfiles/` at the repository
+root, which git ignores, so for now these two notebooks run on a local computer only.
