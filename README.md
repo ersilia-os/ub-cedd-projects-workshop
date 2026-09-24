@@ -37,13 +37,15 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 
 ### 🟠 Orange group · Tuberculosis
 
-**Finding new drug targets in *Mycobacterium tuberculosis*.** Starting from a proteome of around 5,000 proteins, the group reviews the literature on essentiality to shortlist up to 500 candidates, then assesses computationally which of them are druggable, selective and novel, with an interest in allosteric sites for inhibition.
+**Finding new drug targets in *Mycobacterium tuberculosis*.** Starting from a proteome of around 5,000 proteins, the group reviews the literature on essentiality to shortlist up to 500 candidates, then assesses computationally which of them are druggable, selective and novel: each target gets a 3D structure (PDB or AlphaFold) and its pockets are scored with P2Rank, with an interest in allosteric sites for inhibition.
 
 [Project folder](projects/orange/) · [Shared Drive folder](https://drive.google.com/drive/folders/1L452i_YdUzQCUQwIBlvSCHG5Rn95qJId) · [Project plan](https://docs.google.com/document/d/16Vh6i2dz49U-ZaYU2FctAxNXr9Lkg0iuWVfqCFikjCw)
 
 **Notebooks**
 
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_target_selection.ipynb) &nbsp;**Selecting essential targets in M. tuberculosis** · _CPU_
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_protein_structures.ipynb) &nbsp;**Finding a 3D structure for every target** · _CPU_
+3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_pocket_detection.ipynb) &nbsp;**Finding binding pockets with P2Rank** · _CPU_
 
 ### 🔵 Blue group · Cryptosporidiosis
 

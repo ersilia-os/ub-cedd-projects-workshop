@@ -2,10 +2,12 @@
 
 Checks that every notebook follows the standard structure described in CLAUDE.md,
 that the setup cell matches the template, that outputs are cleared, and that no file
-in the repository exceeds 50 MB. Pass `--clear` to clear outputs in place.
+git would commit exceeds 50 MB. Git-ignored files, such as the large downloads under
+`data/downloads/`, are skipped. Pass `--clear` to clear outputs in place.
 """
 
 import re
+import subprocess
 import sys
 
 import nbformat
@@ -91,8 +93,11 @@ def main():
         for problem in check_notebook(path, clear):
             print(f"{path.relative_to(ROOT)}: {problem}")
             failed = True
-    for path in ROOT.rglob("*"):
-        if ".git" in path.parts or not path.is_file():
+    # Tracked files plus untracked ones that are not git-ignored: what `git add` would take.
+    listed = subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard"],
+                            cwd=ROOT, capture_output=True, text=True, check=True).stdout
+    for path in (ROOT / name for name in listed.splitlines()):
+        if not path.is_file():
             continue
         size_mb = path.stat().st_size / 1e6
         if size_mb > MAX_MB:
