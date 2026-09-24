@@ -34,6 +34,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 **Notebooks**
 
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_data_curation.ipynb) &nbsp;**Curating ACE inhibitors from four sources** · _CPU_
+2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_chemical_space.ipynb) &nbsp;**Exploring the chemical space of ACE inhibitors** · _CPU_
 
 ### 🟠 Orange group · Tuberculosis
 
