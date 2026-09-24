@@ -182,7 +182,8 @@ def download_structure(row, folder=STRUCTURE_FOLDER):
     ----------
     row : pandas.Series or dict
         Needs `uniprot_ac` and `structure_source`, plus `pdb_id` and `chain` for PDB
-        structures or `af_url` for AlphaFold models.
+        structures or `af_url` for AlphaFold models. If `af_url` points to a model
+        version AlphaFold no longer serves, the current version is downloaded.
     folder : str, optional
         Folder the structure files go in.
 
@@ -203,6 +204,12 @@ def download_structure(row, folder=STRUCTURE_FOLDER):
             raise ValueError(f"{row['uniprot_ac']} has no AlphaFold model, so it needs a "
                              "PDB structure. Try a lower MIN_COVERAGE.")
         response = _get(row["af_url"])
+        # The table records a versioned URL (`..._v6.pdb`). If AlphaFold has since
+        # retired that version, ask it for the current model instead.
+        if response.status_code == 404:
+            current = alphafold_entry(row["uniprot_ac"])["af_url"]
+            if current:
+                response = _get(current)
         response.raise_for_status()
         with open(partial, "w") as f:
             f.write(response.text)
