@@ -32,7 +32,7 @@ RUNTIMES = {"cpu": "CPU", "t4": "T4 GPU", "l4": "L4 GPU (Colab Pro)", "a100": "A
 
 SETUP_INTRO = """## Setup
 
-Run the cell below first. In Colab it downloads the workshop repository (including the data) and installs the packages this project needs. It takes about a minute. Don't change it."""
+Run the cell below first. In Colab it downloads the workshop repository (including the data) and installs the packages this project needs. It takes about a minute. **Don't change it.**"""
 
 SETUP_CELL = '''PROJECT = "{project}"
 NEEDS_GPU = {gpu}

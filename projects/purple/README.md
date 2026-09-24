@@ -12,7 +12,7 @@
 Click a button to open the notebook in Google Colab, then run the first code cell (Setup) before anything else.
 
 <!-- notebooks:start -->
-1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_getting_started.ipynb) &nbsp;**Getting started** · _CPU_
+1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_data_curation.ipynb) &nbsp;**Curating HIV-1 activity data from ChEMBL** · _CPU_
 <!-- notebooks:end -->
 
 ## Data

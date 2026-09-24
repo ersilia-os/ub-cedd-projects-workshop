@@ -220,3 +220,17 @@ __marimo__/
 # Workshop: large data downloaded at runtime (host it as a release asset, not in git)
 projects/*/data/downloads/
 projects/*/work/
+
+# Workshop: per-project scratch work, never committed
+projects/*/_scratch/
+
+# Workshop: files a notebook generates for participants to download, never committed
+projects/*/outputs/
+
+# Workshop: ChEMBL downloads participants fetch themselves, never committed
+projects/*/data/chembl*.csv
+
+# Workshop: BindingDB, PubChem and manual-curation files participants upload themselves
+projects/*/data/bindingdb*.tsv
+projects/*/data/pubchem*.csv
+projects/*/data/manual*.csv
