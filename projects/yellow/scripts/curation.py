@@ -474,15 +474,11 @@ def collapse(df, cutoff_nm):
     meta = df.groupby(key).agg(
         smiles=("smiles", "first"),
         sources=("source", lambda s: "+".join(x for x in SOURCES if x in set(s))),
-        independent_sources=("source", lambda s: ""),
         record_ids=("record_id", lambda s: ";".join(sorted(s))),
     )
     independent = trusted.groupby(key)["source"].agg(
         lambda s: "+".join(x for x in SOURCES if x in set(s)))
     meta["independent_sources"] = independent.reindex(meta.index).fillna("")
-    for source in SOURCES:
-        meta[f"n_{source}"] = (df[df["source"] == source].groupby(key).size()
-                               .reindex(meta.index).fillna(0).astype(int))
     out = meta.join(pd.concat([measured, bounded, commented]), how="inner")
     return out.reset_index()
 
