@@ -17,6 +17,7 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_pharmit_hits.ipynb) &nbsp;**From Pharmit hits to a list of compounds to order** · _CPU_
 4. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_chemical_space.ipynb) &nbsp;**Exploring the chemical space of the CpABC1 pharmacophore hits** · _CPU_
 5. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_sand_shape_similarity.ipynb) &nbsp;**Shape similarity to silymarin** · _CPU_
+6. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_sprint_filter.ipynb) &nbsp;**Filter the shape hits with SPRINT** · _CPU_
 <!-- notebooks:end -->
 
 ## Data
