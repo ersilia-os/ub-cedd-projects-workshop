@@ -10,12 +10,28 @@ Participants: put data files in the Drive folder **Projects/BlueTeam/Data**, not
 | `eos5mnx_silymarin.csv` | eos5mnx_silymarin.csv | `1a2BSR8mVqWnjXBfNpj1zSHqJlaJRAy8m` | 2026-09-24T17:43:21Z | 2026-09-24 | Silymarin run through the Ersilia model [eos5mnx](https://github.com/ersilia-os/eos5mnx) (SAND), which returns 512 numbers describing the molecule's 3D shape. Run on the stereochemical SMILES in `silymarin.csv`, not the flat one used for `eos1klk_silymarin.csv` |
 | `cpabc1_silymarin.pdb` | Preliminary_data/CpABC1-Silymarin.pdb | `1X7UzFXG6p1fGxg2ekxqkLYP9eTYLVxNW` | 2025-05-21T07:48:58Z | 2026-09-24 | The blue group's CpABC1–silymarin complex (a CpABC1 model with docked silybin, minimised in Schrödinger Maestro), copied unchanged |
 | `silymarin.csv` | (derived, not in Drive) | | | 2026-09-24 | Silybin as a single SMILES, with the stereochemistry of the docked pose. Written from `silymarin_ligand.sdf`, whose canonical SMILES it matches exactly |
-| `cpabc1_receptor.pdb` | (derived, not in Drive) | | | 2026-09-24 | The protein heavy atoms of `cpabc1_silymarin.pdb` (11,435 atoms, chain A), same coordinates |
+| `cpabc1_receptor.pdb` | (derived, not in Drive) | | | 2026-09-24 | The protein heavy atoms of `cpabc1_silymarin.pdb` (11,435 atoms, chain A), same coordinates. Residues 1-1431 of UniProt **Q9XYH6**, numbered continuously with no gaps |
 | `silymarin_ligand.sdf` | (derived, not in Drive) | | | 2026-09-24 | The silybin heavy atoms of `cpabc1_silymarin.pdb` (35 atoms), written with RDKit, same coordinates |
 
 `notebooks/blue_chemical_space.ipynb` reads the first three files. `cpabc1_receptor.pdb` and
 `silymarin_ligand.sdf` are read by `notebooks/blue_pharmacophore.ipynb`, and the complex by the
 sandbox notebook `sandbox/gnina_docking_screen.ipynb` when it runs locally.
+
+## The target
+
+CpABC1 is UniProt **[Q9XYH6](https://www.uniprot.org/uniprotkb/Q9XYH6)**
+(`Q9XYH6_CRYPV`, "ATP-binding cassette protein", *Cryptosporidium parvum*, `GN=CpABC`),
+1,431 residues. Use this accession for anything that needs the sequence rather than the
+structure.
+
+The group's AlphaFold 3 model is in **Projects/BlueTeam/Data/fold_q9xyh6_cpabc1**, Drive ID
+`1Uy0SxhkhN7j6s36gBHLsIYLvdy8b9MXY`: five models from the AlphaFold Server, run on seed 42
+with structure templates enabled. Not copied here: the five per-residue confidence files are
+about 17.5 MB each, so the folder is over 90 MB before counting the MSAs. Its
+`fold_q9xyh6_cpabc1_job_request.json` records the exact input sequence, and that sequence is
+identical to both Q9XYH6 and the sequence read out of `cpabc1_receptor.pdb` above — checked
+character by character on 2026-09-25, so the Maestro-minimised complex, the AlphaFold model
+and the database entry all cover the same full-length protein.
 
 The pharmacophore itself came from the CpABC1–silymarin complex in
 **Projects/BlueTeam/Data/Preliminary_data** (`CpABC1-Silymarin.pdb`, `Sil.sdf`) by way of
