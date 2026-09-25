@@ -10,6 +10,7 @@ Participants: put data files in the Drive folder **Projects/PurpleTeam/Data**, n
 | `hiv1_regression.csv` | hiv1_regression.csv | `1yDbL8PzmGLSyk6TJcwfnazab9ATbo85G` | 2026-09-24T13:25:12Z | 2026-09-24 | Output of `notebooks/purple_data_curation.ipynb` (measured pActivity only), uploaded by the group |
 | `eos1klk_hiv1_curated.csv` | eos1klk_hiv1_curated.csv | `141Id890dAhzRrb_qkfGmMW3UWDjPVPRk` | 2026-09-24T15:10:22Z | 2026-09-24 | The 21,387 curated molecules run through the Ersilia model [eos1klk](https://github.com/ersilia-os/eos1klk), which returns PCA, t-SNE, UMAP and TMAP coordinates on a map of 1.3M reference compounds |
 | `hiv_drugs_approved.csv` | — (not from Drive) | — | — | 2026-09-24 | The 26 approved anti-HIV medicines, fetched from the ChEMBL API (`/data/molecule.json?pref_name__iexact=<name>`, keeping the records with `max_phase` 4) so that no structure was typed by hand. Columns: `drug`, `chembl_id`, `inchikey`, `smiles` |
+| `chembl325_hdac1.csv` | — (not from Drive) | — | — | 2026-09-25 | ChEMBL API export, all 19,200 activity records for target CHEMBL325 (Histone deacetylase 1, *Homo sapiens*), keeping the columns `notebooks/purple_hdac1_feasibility.ipynb` needs |
 
 `notebooks/purple_chemical_space.ipynb` reads `hiv1_curated.csv`, its `eos1klk`
 coordinates and the approved drug list. `hiv_drugs_approved.csv` is a reference list, not
@@ -25,3 +26,10 @@ for it to be copied here.
 when the runtime disconnects, so the notebook downloads them to the participant's
 computer. The group uploaded them to **Projects/PurpleTeam/Data**, and they were
 copied here so that `notebooks/purple_baseline_models.ipynb` can read them.
+
+`notebooks/purple_hdac1_feasibility.ipynb` reads `chembl325_hdac1.csv`. Like
+`hiv_drugs_approved.csv`, it came from the ChEMBL API rather than from Drive: the notebook
+searches ChEMBL live for every target named HDAC1, but downloading the nineteen thousand
+activity records each run would take several minutes in Colab, so they are stored here instead.
+Re-create the file by paging through
+`/data/activity.json?target_chembl_id=CHEMBL325` and keeping the columns the notebook uses.
