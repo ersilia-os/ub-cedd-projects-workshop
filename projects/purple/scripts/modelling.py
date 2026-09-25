@@ -112,6 +112,42 @@ def classification_metrics(y_true, y_proba, threshold=0.5):
     }
 
 
+def plot_proba_by_class(ax, y_true, y_proba, colors, threshold=0.5, seed=42):
+    """Draw the predicted probability of the inactive and the active molecules.
+
+    One box per class, with every molecule drawn as a dot on top of it. The dots are
+    spread sideways at random so they do not hide each other; their height is the
+    only thing that matters.
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+        The panel to draw in.
+    y_true : array-like
+        The real labels, 1 for active and 0 for inactive.
+    y_proba : array-like
+        The predicted probability of being active.
+    colors : list
+        Two colours, for the inactive and the active molecules.
+    threshold : float
+        Probability above which a molecule is called active, drawn as a dashed line.
+    seed : int
+        Seed for the sideways spread, so the plot looks the same every time.
+    """
+    y_true, y_proba = np.asarray(y_true), np.asarray(y_proba)
+    groups = [y_proba[y_true == 0], y_proba[y_true == 1]]
+    rng = np.random.default_rng(seed)
+    for i, (values, color) in enumerate(zip(groups, colors)):
+        spread = rng.uniform(-0.2, 0.2, len(values))
+        ax.scatter(i + spread, values, color=color, alpha=0.25, linewidths=0)
+    ax.boxplot(groups, positions=[0, 1], widths=0.6, showfliers=False,
+               medianprops={"color": "black"})
+    ax.axhline(threshold, color="black", alpha=0.5, linestyle="--")
+    ax.set_xticks([0, 1], ["inactive", "active"])
+    ax.set_xlim(-0.6, 1.6)
+    ax.set_ylim(-0.02, 1.02)
+
+
 def regression_metrics(y_true, y_pred):
     """Score a regressor from its predicted values.
 
