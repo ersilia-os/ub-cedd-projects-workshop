@@ -2,3 +2,8 @@
 rdkit
 chembl_structure_pipeline
 stylia
+# LazyQSAR, used in yellow_baseline_models. Pinned to the exact commit the workshop
+# results were measured with. It is a branch of the Ersilia repository, not a PyPI
+# release: the released 3.4.4 gives predict_rank a different meaning. Move this to a
+# version pin once that work is released.
+lazyqsar[all] @ git+https://github.com/ersilia-os/lazy-qsar@d69472a90bfc7d0e51bcc500c563d12178550295

@@ -234,3 +234,6 @@ projects/*/_scratch/
 
 # Workshop: files a notebook generates for participants to download, never committed
 projects/*/outputs/
+
+# Exploratory modelling comparisons, never committed
+tmp/
