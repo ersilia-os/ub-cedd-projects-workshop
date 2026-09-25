@@ -137,9 +137,12 @@ def plot_proba_by_class(ax, y_true, y_proba, colors, threshold=0.5, seed=42):
     y_true, y_proba = np.asarray(y_true), np.asarray(y_proba)
     groups = [y_proba[y_true == 0], y_proba[y_true == 1]]
     rng = np.random.default_rng(seed)
+    # Thousands of dots need to be faint to show where they pile up; a few hundred
+    # would all but disappear at that level.
+    alpha = 0.25 if len(y_proba) >= 1000 else 0.7
     for i, (values, color) in enumerate(zip(groups, colors)):
         spread = rng.uniform(-0.2, 0.2, len(values))
-        ax.scatter(i + spread, values, color=color, alpha=0.25, linewidths=0)
+        ax.scatter(i + spread, values, color=color, alpha=alpha, linewidths=0)
     ax.boxplot(groups, positions=[0, 1], widths=0.6, showfliers=False,
                medianprops={"color": "black"})
     ax.axhline(threshold, color="black", alpha=0.5, linestyle="--")
