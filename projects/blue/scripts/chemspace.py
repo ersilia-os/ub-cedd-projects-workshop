@@ -84,7 +84,7 @@ def plot_points(ax, frame, projection, color, label=None, alpha=0.6, size=None):
 
 def plot_backdrop(ax, frame, projection):
     """Draw every molecule as a faint grey point, so a highlighted subset has context."""
-    plot_points(ax, frame, projection, color=stylia.NamedColors().silver, alpha=0.2)
+    plot_points(ax, frame, projection, color=stylia.NamedColors().gray, alpha=0.2)
 
 
 def plot_seed(ax, seed, projection, color, label="silymarin"):
