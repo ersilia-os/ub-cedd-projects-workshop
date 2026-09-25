@@ -22,3 +22,5 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 ## Data
 
 Data files for this group live in [`data/`](data/), copied from the Drive `Data` folder. Where each file came from is recorded in [`data/SOURCES.md`](data/SOURCES.md).
+
+> **Note:** the SAND shape descriptors (`eos5mnx_*.csv`), for the 28,732 Pharmit hits and for silymarin, were calculated beforehand with the [Ersilia CLI](https://github.com/ersilia-os/ersilia), running the model [eos5mnx](https://github.com/ersilia-os/eos5mnx) locally. The notebooks don't run the model; they read its output files. To calculate them again: `ersilia fetch eos5mnx`, `ersilia serve eos5mnx`, then `ersilia run -i <molecules>.csv -o eos5mnx_<molecules>.csv`.

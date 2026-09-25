@@ -34,6 +34,11 @@ repository. It is in **Projects/BlueTeam/Data**, Drive ID `13NsF7-vsmqgOIToiJFOH
 modified 2026-09-24T17:30:28Z. `notebooks/blue_sand_shape_similarity.ipynb` asks you to upload it,
 or reads it from `data/downloads/` when it runs locally.
 
+That same notebook writes `data/downloads/sand_filtered_hits.csv`, the 1,887 hits that pass both its
+shape ranking and its property rules, as two columns (`molport_id`, `smiles`) ready to feed to
+another model. Like everything in `data/downloads/`, it is not in the repository: run the notebook
+again to recreate it.
+
 The seed's stereocentres in `Sil.sdf` are inferred from the docked 3D pose and match
 neither silybin A nor silybin B, so the flat SMILES above is what goes through the model.
 

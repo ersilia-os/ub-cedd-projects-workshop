@@ -13,7 +13,11 @@ import numpy as np
 import pandas as pd
 import stylia
 from rdkit import Chem, DataStructs, RDLogger
-from rdkit.Chem import AllChem, Draw, rdFingerprintGenerator, rdMolAlign, rdShapeHelpers
+from rdkit.Chem import (QED, AllChem, Draw, rdFingerprintGenerator, rdMolAlign,
+                        rdShapeHelpers)
+from rdkit.Chem.FilterCatalog import FilterCatalog, FilterCatalogParams
+
+from .chemspace import DESCRIPTORS
 
 # RDKit prints a warning for every molecule it cannot read. We count them instead.
 RDLogger.DisableLog("rdApp.*")
@@ -86,6 +90,30 @@ def tanimoto_background(fps, sample=2000, seed=42):
     return np.array(values)
 
 
+def drug_likeness(smiles_list):
+    """Return the QED of every molecule, a single number for how drug-like it looks.
+
+    QED runs from 0 to 1 and combines the properties in `DESCRIPTORS` with a few others,
+    each scored against the range seen in approved oral drugs. It is a rough guide, not a
+    verdict: plenty of real drugs, silymarin among them, score in the middle.
+    """
+    return np.array([QED.qed(Chem.MolFromSmiles(text)) for text in smiles_list])
+
+
+def pains_alerts(smiles_list):
+    """Return True for molecules containing a PAINS substructure.
+
+    PAINS are pieces that turn up as hits against many unrelated proteins, usually
+    because they interfere with the assay rather than bind anything. This uses RDKit's
+    PAINS_A catalogue, the smallest and most confident of the three, so a True here is
+    worth taking seriously. It is a reason to check a molecule, not to trust or reject it.
+    """
+    parameters = FilterCatalogParams()
+    parameters.AddCatalog(FilterCatalogParams.FilterCatalogs.PAINS_A)
+    catalogue = FilterCatalog(parameters)
+    return np.array([catalogue.HasMatch(Chem.MolFromSmiles(text)) for text in smiles_list])
+
+
 def percentile_of(value, background):
     """Return where a similarity would sit in the background, as a percentage."""
     return float((background < value).mean() * 100)
@@ -139,17 +167,100 @@ def overlay_on(smiles, reference, conformers=20, seed=42):
     return molecule, best[1], best[0]
 
 
+def _add_overlay(view, reference, molecule, conformer, **cell):
+    """Add the reference (grey) and one aligned molecule (blue) to a py3Dmol view.
+
+    `cell` is empty for a single view, or `viewer=(row, column)` for one cell of a grid.
+    """
+    view.addModel(Chem.MolToMolBlock(reference), "sdf", **cell)
+    view.setStyle({"model": 0}, {"stick": {"colorscheme": "greyCarbon", "radius": 0.12}}, **cell)
+    view.addModel(Chem.MolToMolBlock(molecule, confId=conformer), "sdf", **cell)
+    view.setStyle({"model": 1}, {"stick": {"colorscheme": "cyanCarbon", "radius": 0.12}}, **cell)
+    view.zoomTo(**cell)
+
+
 def view_overlay(reference, molecule, conformer, width=260, height=220):
     """Show one molecule laid over the reference, the reference in grey."""
     import py3Dmol
 
     view = py3Dmol.view(width=width, height=height)
-    view.addModel(Chem.MolToMolBlock(reference), "sdf")
-    view.setStyle({"model": 0}, {"stick": {"colorscheme": "greyCarbon", "radius": 0.12}})
-    view.addModel(Chem.MolToMolBlock(molecule, confId=conformer), "sdf")
-    view.setStyle({"model": 1}, {"stick": {"colorscheme": "cyanCarbon", "radius": 0.12}})
-    view.zoomTo()
+    _add_overlay(view, reference, molecule, conformer)
     return view
+
+
+def view_overlay_grid(reference, entries, per_row=4, size=(220, 200)):
+    """Show several molecules laid over the reference, one per cell of a grid.
+
+    `entries` are dictionaries with the `molecule` and `conformer` that `overlay_on`
+    returns, and a `caption` to write in the corner of the cell.
+    """
+    import py3Dmol
+
+    rows = -(-len(entries) // per_row)
+    view = py3Dmol.view(width=size[0] * per_row, height=size[1] * rows,
+                        viewergrid=(rows, per_row), linked=False)
+    for position, entry in enumerate(entries):
+        cell = {"viewer": (position // per_row, position % per_row)}
+        _add_overlay(view, reference, entry["molecule"], entry["conformer"], **cell)
+        view.addLabel(entry["caption"], {"fontSize": 10, "fontColor": "black",
+                                         "backgroundOpacity": 0, "useScreen": True,
+                                         "position": {"x": 5, "y": 5}}, **cell)
+    return view
+
+
+def plot_cutoff(ax, scores, cutoff, xlabel="Shape similarity to silymarin"):
+    """Draw every score, with the ones kept above the cutoff in a second colour."""
+    colors = stylia.NamedColors()
+    edges = np.linspace(scores.min(), scores.max(), 60)
+    ax.hist(scores[scores < cutoff], bins=edges, color=colors.silver, label="left out")
+    ax.hist(scores[scores >= cutoff], bins=edges, color=colors.cobalt, label="kept")
+    ax.axvline(cutoff, color=colors.crimson, linewidth=1.2, label=f"cutoff {cutoff:.3f}")
+    ax.legend(fontsize=6, frameon=False)
+    stylia.label(ax, xlabel=xlabel, ylabel="Number of hits")
+
+
+def plot_filters(axes, values, limits, kept):
+    """Draw one panel per property, with the molecules the rules remove in grey.
+
+    `values` is a table with one column per property, `limits` gives the lines to draw
+    under the same names, and `kept` is the boolean mask of the molecules that pass
+    every rule.
+    """
+    colors = stylia.NamedColors()
+    for name, (title, lines) in limits.items():
+        ax = axes.next()
+        column = values[name]
+        edges = np.linspace(column.quantile(0.002), column.quantile(0.998), 40)
+        ax.hist(column[~kept], bins=edges, color=colors.silver, label="removed")
+        ax.hist(column[kept], bins=edges, color=colors.cobalt, label="kept")
+        for line in lines:
+            ax.axvline(line, color=colors.crimson, linewidth=1.2)
+        ax.legend(fontsize=6, frameon=False)
+        stylia.label(ax, xlabel=title, ylabel="Number of hits")
+
+
+def plot_properties(axes, top, rest, seed):
+    """Draw one panel per property: the kept hits against the rest, silymarin as a line.
+
+    `top`, `rest` and `seed` are tables with one column per property in `DESCRIPTORS`,
+    as `chemspace.describe` returns them.
+    """
+    colors = stylia.NamedColors()
+    for position, (name, (title, _)) in enumerate(DESCRIPTORS.items()):
+        ax = axes.next()
+        both = pd.concat([top[name], rest[name]]).dropna()
+        low, high = both.quantile(0.005), both.quantile(0.995)
+        edges = np.linspace(low, high, 30)
+        if name in ("hbd", "hba", "rotatable_bonds"):
+            edges = np.arange(low, high + 2) - 0.5
+        ax.hist(rest[name], bins=edges, density=True, color=colors.silver,
+                alpha=0.7, label="rest")
+        ax.hist(top[name], bins=edges, density=True, color=colors.cobalt,
+                alpha=0.7, label="top hits")
+        ax.axvline(seed[name].iloc[0], color=colors.crimson, linewidth=1.2, label="silymarin")
+        stylia.label(ax, xlabel=title, ylabel="Density")
+        if position == 0:
+            ax.legend(fontsize=6, frameon=False)
 
 
 def draw_molecules(smiles_list, legends, per_row=4, size=(260, 220)):
