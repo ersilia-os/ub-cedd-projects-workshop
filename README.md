@@ -68,6 +68,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 4. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_chemical_space.ipynb) &nbsp;**Exploring the chemical space of the CpABC1 pharmacophore hits** · _CPU_
 5. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_sand_shape_similarity.ipynb) &nbsp;**Shape similarity to silymarin** · _CPU_
 6. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_sprint_filter.ipynb) &nbsp;**Filter the shape hits with SPRINT** · _CPU_
+7. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_cytotoxicity_filter.ipynb) &nbsp;**Filter the shape hits by predicted toxicity** · _CPU_
 <!-- notebooks:end -->
 
 ## Shared Google Drive

@@ -11,6 +11,7 @@ Participants: put data files in the Drive folder **Projects/BlueTeam/Data**, not
 | `cpabc1_silymarin.pdb` | Preliminary_data/CpABC1-Silymarin.pdb | `1X7UzFXG6p1fGxg2ekxqkLYP9eTYLVxNW` | 2025-05-21T07:48:58Z | 2026-09-24 | The blue group's CpABC1–silymarin complex (a CpABC1 model with docked silybin, minimised in Schrödinger Maestro), copied unchanged |
 | `silymarin.csv` | (derived, not in Drive) | | | 2026-09-24 | Silybin as a single SMILES, with the stereochemistry of the docked pose. Written from `silymarin_ligand.sdf`, whose canonical SMILES it matches exactly |
 | `cpabc1_receptor.pdb` | (derived, not in Drive) | | | 2026-09-24 | The protein heavy atoms of `cpabc1_silymarin.pdb` (11,435 atoms, chain A), same coordinates. Residues 1-1431 of UniProt **Q9XYH6**, numbered continuously with no gaps |
+| `eos42ez_sand_hits.csv` | (derived, not in Drive) | | | 2026-09-25 | The 1,887 shape-similarity hits run through the Ersilia model [eos42ez](https://github.com/ersilia-os/eos42ez) (antibiotics-ai-cytotox, from [Wong et al., Nature 2023](https://doi.org/10.1038/s41586-023-06887-8)), computed offline by the developer. Columns `cytotoxicity_hepg2`, `cytotoxicity_hskmc` and `cytotoxicity_imr90` are liver, skeletal muscle and lung cells, each 0 to 1 where **higher means more likely to be toxic** - the opposite direction to the other scores here. The model was trained on 39,312 compounds screened at 10 uM against a 90%-viability threshold |
 | `sprint_drug_projector.pt` | (derived, not in Drive) | | | 2026-09-25 | The molecule half of the trained SPRINT model (23 tensors, 22.8 MB), taken out of the authors' Lit-PCBA checkpoint. SPRINT is MIT-licensed; the checkpoint is linked from [its repository](https://github.com/abhinadduri/panspecies-dti/blob/main/checkpoints/README.md). Extracted so `notebooks/blue_sprint_filter.ipynb` does not have to install SPRINT or download the full 191 MB checkpoint |
 | `cpabc1_sprint_embedding.npy` | (derived, not in Drive) | | | 2026-09-25 | CpABC1 as the 1024 numbers SPRINT describes a protein with. Computed from `cpabc1_receptor.pdb`: foldseek structure tokens for all 1,431 residues, cut to residues 214-1235 (a 1,022-residue window centred on the silybin site, which is SaProt's limit), then through SaProt-650M and SPRINT's protein network. Stored because it never changes, so the notebook avoids a 2.43 GB model download |
 | `silymarin_ligand.sdf` | (derived, not in Drive) | | | 2026-09-24 | The silybin heavy atoms of `cpabc1_silymarin.pdb` (35 atoms), written with RDKit, same coordinates |
@@ -42,6 +43,13 @@ step, not a binding prediction - scoring the same 20-compound control panel agai
 carbonic anhydrase II, an enzyme unrelated to ABC transporters, separated known transporter
 inhibitors from matched decoys as well as CpABC1 did (+0.369 against +0.340), so the score
 responds mostly to the molecule rather than to the target.
+
+`notebooks/blue_cytotoxicity_filter.ipynb` reads `eos42ez_sand_hits.csv` above and joins it
+on SMILES to `sand_filtered_hits.csv`, which participants upload, to pick up the MolPort
+catalogue numbers. It ranks on the liver-cell column alone. Liver and muscle predictions
+correlate at 0.945, so one stands in for the other, but lung predictions correlate at only
+0.658 and therefore carry information the filter does not use - a limitation the notebook
+states, with an exercise that reruns the selection on the lung column.
 
 The pharmacophore itself came from the CpABC1–silymarin complex in
 **Projects/BlueTeam/Data/Preliminary_data** (`CpABC1-Silymarin.pdb`, `Sil.sdf`) by way of
