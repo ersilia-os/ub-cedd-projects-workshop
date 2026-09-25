@@ -5,3 +5,6 @@ gemmi
 esm
 umap-learn
 openTSNE
+biopython
+pyarrow
+pyhmmer

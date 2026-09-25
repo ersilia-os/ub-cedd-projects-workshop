@@ -51,6 +51,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_pocket_detection.ipynb) &nbsp;**Finding binding pockets with P2Rank** · _CPU_
 4. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_mtb_proteome_embeddings.ipynb) &nbsp;**Compute ESM-C embeddings for the Mtb proteome** · _T4 GPU_
 5. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_essential_proteins_projections.ipynb) &nbsp;**Map essential proteins with UMAP and t-SNE** · _CPU_
+6. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/orange/notebooks/orange_chembl_precedent.ipynb) &nbsp;**How much chemistry already exists for each target** · _CPU_
 
 ### 🔵 Blue group · Cryptosporidiosis
 

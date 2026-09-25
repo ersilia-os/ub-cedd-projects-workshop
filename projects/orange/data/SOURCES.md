@@ -35,6 +35,15 @@ table above, and the next notebook reads it:
 The structure files and P2Rank itself are downloaded at run time into
 `data/downloads/`, which is not committed.
 
+`orange_chembl_precedent` reads nothing from this folder. It queries **ChEMBL** (release
+`ChEMBL_37`, 2026-05-01) and UniProt over the internet, through `scripts/chembl.py`, and
+caches what it downloads in `data/downloads/chembl/`, which is not committed either: the
+list of ChEMBL single-protein targets, their sequences, the sequence comparisons, and the
+compounds tested on the ChEMBL proteins our targets turn out to be related to. Only those
+proteins are asked about, about 120 of the 11,053, so the whole notebook runs in a few
+minutes. Its output, `mtb_targets_chembl_precedent.csv`, counts unique compounds with a
+pChEMBL value of at least 5 and is written to `outputs/` for the group to upload to Drive.
+
 `orange_mtb_proteome_embeddings` downloads the *M. tuberculosis* H37Rv reference proteome
 (`UP000001584`) from the UniProt REST API into `data/downloads/`. It and
 `orange_essential_proteins_projections` read and write large files (ESM-C embeddings,
