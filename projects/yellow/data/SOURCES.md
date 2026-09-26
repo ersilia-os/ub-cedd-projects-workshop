@@ -27,3 +27,9 @@ and the group uploads it to Drive; the copy here is what the later notebooks rea
 To add a new `eos1klk` file: run the SMILES through the model in Ersilia, upload the
 output to **Projects/YellowTeam/Data** as `eos1klk_<what the molecules are>.csv`, and ask
 for it to be copied here.
+
+`notebooks/yellow_screening_analysis.ipynb` reads `reinvent_mols_41k.csv`. It also expects
+`lazyqsar_ace1_reinvent_41k.csv`, the ACE1 predictions for those same molecules, with a
+`compound_id` column and a `probability` column. That file does not exist yet. Until it is
+uploaded to **Projects/YellowTeam/Data** and copied here, the notebook invents placeholder
+scores and marks every figure made from them as not real.

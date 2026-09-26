@@ -15,6 +15,7 @@ Click a button to open the notebook in Google Colab, then run the first code cel
 1. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_data_curation.ipynb) &nbsp;**Curating ACE inhibitors from four sources** · _CPU_
 2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_chemical_space.ipynb) &nbsp;**Exploring the chemical space of ACE inhibitors** · _CPU_
 3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_baseline_models.ipynb) &nbsp;**Training baseline models for ACE1 inhibition** · _CPU_
+4. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/yellow/notebooks/yellow_screening_analysis.ipynb) &nbsp;**Screening the generated library against ACE1** · _CPU_
 <!-- notebooks:end -->
 
 ## Data

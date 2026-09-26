@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 import stylia
 from rdkit import Chem, RDLogger
-from rdkit.Chem import Draw
+from rdkit.Chem import QED, Descriptors, Draw
 from rdkit.Chem.Scaffolds import MurckoScaffold
 
 # RDKit prints a warning for every molecule it cannot read. We count them instead.
@@ -102,6 +102,39 @@ def label_substructures(smiles, patterns):
         unlabelled = labels == "other"
         labels[unlabelled & has_substructure(smiles, smarts)] = name
     return labels
+
+
+def molecular_properties(smiles):
+    """Compute the three properties used to judge whether a molecule looks like a drug.
+
+    - `mw`, the molecular weight, is roughly how big the molecule is.
+    - `logp` is how greasy it is: high values dissolve in fat, low values in water. A
+      molecule has to do a bit of both to be absorbed and reach its target.
+    - `qed` runs from 0 to 1 and combines those two with a handful of other properties,
+      each scored against the range seen in approved oral drugs. It is a rough guide,
+      not a verdict: plenty of real drugs sit in the middle.
+
+    Parameters
+    ----------
+    smiles : list of str
+        The molecules, as SMILES.
+
+    Returns
+    -------
+    pandas.DataFrame
+        One row per molecule, in the order given, with columns `mw`, `logp` and `qed`.
+        A molecule RDKit cannot read gets missing values.
+    """
+    rows = []
+    for text in smiles:
+        molecule = Chem.MolFromSmiles(text)
+        if molecule is None:
+            rows.append({"mw": np.nan, "logp": np.nan, "qed": np.nan})
+        else:
+            rows.append({"mw": Descriptors.MolWt(molecule),
+                         "logp": Descriptors.MolLogP(molecule),
+                         "qed": QED.qed(molecule)})
+    return pd.DataFrame(rows, columns=["mw", "logp", "qed"])
 
 
 def draw_molecules(smiles, legends, per_row=4):
