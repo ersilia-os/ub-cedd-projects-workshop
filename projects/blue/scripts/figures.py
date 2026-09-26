@@ -21,6 +21,8 @@ import numpy as np
 import pandas as pd
 import stylia
 
+from rdkit import Chem
+
 from . import chemspace, shape
 
 # Where each stage of the funnel comes from. Only files committed to the repository are
@@ -174,3 +176,90 @@ def rule_text(column):
     if low is not None and high is not None:
         return f"keep {low} to {high}"
     return f"keep {high} or less" if low is None else f"keep {low} or more"
+
+
+# Silymarin in 3D: the pose docked into the CpABC1 pocket, so the overlays below compare
+# against the form the molecule actually binds in rather than an idealised one.
+OVERLAY_REFERENCE = "data/silymarin_ligand.sdf"
+
+
+def _positions(molecule, conformer):
+    """Return the 3D coordinates of every atom of one conformer, as an array."""
+    geometry = molecule.GetConformer(conformer)
+    return np.array([list(geometry.GetAtomPosition(i)) for i in range(molecule.GetNumAtoms())])
+
+
+def _bonds(molecule):
+    """Return each bond as the pair of atoms it joins."""
+    return [(bond.GetBeginAtomIdx(), bond.GetEndAtomIdx()) for bond in molecule.GetBonds()]
+
+
+def build_overlays(how_many=4):
+    """Lay the best-scoring shortlisted molecules over silymarin in 3D.
+
+    For each one, `shape.overlay_on` builds the shapes it can fold into, fits each over
+    silymarin, and keeps the best. That is the real 3D comparison SAND only predicts, so
+    each entry carries both numbers: SAND's score and the overlap actually achieved.
+
+    The pair of molecules is then flattened for drawing, onto the plane they jointly spread
+    out in most, which is the view that shows the most of the overlap. Coordinates are
+    centred on the pair, in angstroms.
+
+    This is the slow step, a second or two per molecule.
+    """
+    reference = Chem.MolFromMolFile(OVERLAY_REFERENCE)
+    scored = pd.read_csv(SHAPE)
+    shortlisted = set(pd.read_csv(CYTOTOXICITY)["input"])
+    best = scored[scored["smiles"].isin(shortlisted)].nlargest(how_many, "shape")
+
+    seed_positions = _positions(reference, 0)
+    entries = []
+    for row in best.itertuples():
+        molecule, conformer, overlap = shape.overlay_on(row.smiles, reference)
+        hit_positions = _positions(molecule, conformer)
+
+        both = np.vstack([seed_positions, hit_positions])
+        centre = both.mean(axis=0)
+        plane = np.linalg.svd(both - centre)[2][:2].T  # the two directions they spread in most
+        entries.append({
+            "molport_id": row.molport_id, "sand": row.shape, "overlap": overlap,
+            "seed_xy": (seed_positions - centre) @ plane,
+            "hit_xy": (hit_positions - centre) @ plane,
+            "seed_bonds": _bonds(reference), "hit_bonds": _bonds(molecule),
+        })
+    return entries
+
+
+def overlay_extent(entries):
+    """Return the half-width and half-height that fit every overlay, so panels share a scale.
+
+    Without this each panel is scaled to its own molecule, and a small molecule is drawn just
+    as large as a big one, which makes the sizes impossible to compare. The two directions are
+    measured separately, because a molecule laid out flat is much wider than it is tall and a
+    square frame would be mostly empty. The panels stay undistorted either way.
+    """
+    corners = np.vstack([np.vstack([e["seed_xy"], e["hit_xy"]]) for e in entries])
+    return tuple(np.abs(corners).max(axis=0) * 1.08)
+
+
+def plot_overlay(ax, entry, extent, legend=False):
+    """Draw one molecule laid over silymarin, silymarin in grey behind it."""
+    nc = stylia.NamedColors()
+    for xy, bonds, color, width, z, name in (
+        (entry["seed_xy"], entry["seed_bonds"], nc.silver, 4.0, 1, "silymarin"),
+        (entry["hit_xy"], entry["hit_bonds"], nc.turquoise, 2.6, 2, "hit"),
+    ):
+        for first, second in bonds:
+            ax.plot(xy[[first, second], 0], xy[[first, second], 1], color=color,
+                    linewidth=width, solid_capstyle="round", zorder=z, label=name)
+            name = None  # only the first bond of each molecule goes in the legend
+
+    half_width, half_height = extent
+    ax.set_xlim(-half_width, half_width)
+    ax.set_ylim(-half_height, half_height)
+    ax.set_aspect("equal")
+    ax.set_axis_off()
+    ax.set_title(f"{entry['molport_id']}\nSAND {entry['sand']:.2f} · "
+                 f"real overlap {entry['overlap']:.2f}", fontsize=9)
+    if legend:
+        ax.legend(fontsize=7, frameon=False, loc="lower left")
