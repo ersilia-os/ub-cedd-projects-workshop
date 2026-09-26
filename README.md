@@ -86,7 +86,22 @@ projects/<color>/
 ├── notebooks/        # Colab notebooks, named <color>_<what_it_does>.ipynb
 ├── data/             # data used by the notebooks (sources in data/SOURCES.md)
 └── requirements.txt  # extra packages installed by the setup cell
+
+sandbox/              # the Ersilia model runner, outside the four-day path
 ```
+
+## Running any Ersilia model
+
+Separate from the group notebooks, there is a small tool for running any model from the [Ersilia Model Hub](https://catalog.ersilia.io) in Colab. Fetch a model by its identifier, pass a list of SMILES, and get back the same table Ersilia itself produces: a `key` column, the `input`, and then the model's own columns.
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/sandbox/run_ersilia_model_colab.ipynb) &nbsp;**Run an Ersilia model in Colab**
+
+```python
+model = fetch_model("eos42ez", "v1")
+model.run(["CCO", "c1ccccc1"])
+```
+
+Each model is a container image of several gigabytes, downloaded again every time Colab recycles the runtime, so expect a few minutes before the first prediction.
 
 ## Reusing this material
 
