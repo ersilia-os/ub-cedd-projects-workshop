@@ -15,10 +15,13 @@ which places a molecule on a map drawn from 1.3 million reference compounds, so 
 notebook in this project draws molecules on the same map.
 """
 
+import math
+
+import numpy as np
 import pandas as pd
 import stylia
 
-from . import chemspace
+from . import chemspace, shape
 
 # Where each stage of the funnel comes from. Only files committed to the repository are
 # listed: `outputs/` and `data/downloads/` are git-ignored, so in Colab they do not exist.
@@ -26,6 +29,8 @@ HITS = "data/pharmit_hits_molport.csv"
 COORDINATES = "data/eos1klk_pharmit_hits.csv"
 CYTOTOXICITY = "data/eos42ez_sand_hits.csv"
 SEED = "data/eos1klk_silymarin.csv"
+SHAPE = "data/sand_shape_similarity.csv"
+SEED_SMILES = "data/silymarin.csv"
 
 # The cytotoxicity shortlist is rebuilt rather than read, using the same rule as
 # `blue_cytotoxicity_filter.ipynb`: sort on predicted toxicity to liver cells, keep the
@@ -88,3 +93,84 @@ def add_legend(ax, loc="upper right"):
         handle.set_alpha(1)
         handle.set_sizes([60])
     return legend
+
+
+# The property filter of `blue_sand_shape_similarity.ipynb`, in the same order it applies it:
+# first keep the best tenth of the shape ranking, then apply three rules of thumb to those.
+# Change any of these and the shortlist stops matching that notebook.
+TOP_FRACTION = 0.10
+MW_RANGE = (250, 500)
+MAX_LOGP = 5
+MIN_QED = 0.35
+
+# One entry per panel of the property figure: the column, the axis label, and the rule
+# drawn on it as (low, high), where `None` means the rule does not close that side.
+RULES = {
+    "mw": ("Molecular weight", MW_RANGE),
+    "logp": ("logP", (None, MAX_LOGP)),
+    "qed": ("Drug-likeness (QED)", (MIN_QED, None)),
+}
+
+
+def load_property_filter():
+    """Rebuild the property filter that turned the shape ranking into the shortlist.
+
+    Returns `(top, seed)`. `top` is the best tenth of the shape ranking, 2,874 molecules,
+    with `mw`, `logp` and `qed` computed for each and one boolean column per rule saying
+    whether it passes that rule on its own. `seed` is the same properties for silymarin.
+
+    The molecules that pass all three rules are checked against `eos42ez_sand_hits.csv`,
+    the shortlist the filter notebook actually produced, so a change in RDKit or in the
+    constants above shows up here as an error rather than as a quietly different figure.
+    """
+    scored = pd.read_csv(SHAPE)
+    top = scored.nlargest(math.ceil(TOP_FRACTION * len(scored)), "shape").reset_index(drop=True)
+    top = top.join(chemspace.describe(top["smiles"]))
+    top["qed"] = shape.drug_likeness(top["smiles"])
+
+    top["passes_mw"] = top["mw"].between(*MW_RANGE)
+    top["passes_logp"] = top["logp"] <= MAX_LOGP
+    top["passes_qed"] = top["qed"] >= MIN_QED
+    top["passes"] = top["passes_mw"] & top["passes_logp"] & top["passes_qed"]
+
+    expected = set(pd.read_csv(CYTOTOXICITY)["input"])
+    if set(top.loc[top["passes"], "smiles"]) != expected:
+        raise ValueError(f"the rebuilt shortlist has {int(top['passes'].sum())} molecules and does "
+                         f"not match the {len(expected)} in {CYTOTOXICITY}. Have the rules or the "
+                         f"property calculation changed since blue_sand_shape_similarity ran?")
+
+    seed = chemspace.describe(pd.read_csv(SEED_SMILES)["smiles"])
+    seed["qed"] = shape.drug_likeness(pd.read_csv(SEED_SMILES)["smiles"])
+    return top, seed
+
+
+def plot_rule(ax, top, seed, column):
+    """Draw one property, coloured by the one rule that applies to it.
+
+    Every panel of the property figure asks a single question, so a molecule is coloured
+    here by whether it passes *this* rule, not by whether it survives all three. That keeps
+    the boundary honest: everything on the kept side of the line is drawn as kept. A
+    molecule can pass here and still be dropped by one of the other two panels.
+    """
+    nc = stylia.NamedColors()
+    title, (low, high) = RULES[column]
+    values = top[column]
+    passes = top[f"passes_{column}"]
+
+    edges = np.linspace(values.quantile(0.002), values.quantile(0.998), 45)
+    ax.hist(values[~passes], bins=edges, color=nc.silver, label=f"removed ({int((~passes).sum()):,})")
+    ax.hist(values[passes], bins=edges, color=nc.turquoise, label=f"kept ({int(passes.sum()):,})")
+    for edge in (low, high):
+        if edge is not None:
+            ax.axvline(edge, color=nc.crimson, linewidth=1.4, linestyle="--")
+    ax.axvline(seed[column].iloc[0], color=nc.amber, linewidth=1.6, label="silymarin")
+    ax.legend(fontsize=7, frameon=False)
+    stylia.label(ax, xlabel=title, ylabel="Number of hits", title=rule_text(column))
+
+
+def rule_text(column):
+    """Write a rule out the way it reads in the filter notebook, e.g. `250 to 500`."""
+    low, high = RULES[column][1]
+    if low is not None and high is not None:
+        return f"keep {low} to {high}"
+    return f"keep {high} or less" if low is None else f"keep {low} or more"
