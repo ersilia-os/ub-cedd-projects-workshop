@@ -16,7 +16,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 <!-- notebooks:start -->
 ### 🟣 Purple group · HIV
 
-**Machine learning for the discovery of anti-HIV and HDAC1 inhibitors from African natural products.** The group curates HIV-1 whole-cell assay data from ChEMBL, improves the activity model currently in use (better featurisation, handling of class imbalance, interpretable descriptors), and then reuses the same pipeline on a second target, HDAC1, as a proof of concept.
+**Machine learning for the discovery of anti-HIV and HDAC1 inhibitors from African natural products.** The group curates HIV-1 whole-cell assay data from ChEMBL, improves the activity model currently in use (better featurisation, handling of class imbalance, interpretable descriptors), and uses it to rank the African Natural Products Database against DrugBank as a yardstick. The same pipeline is then reused on a second target, HDAC1, as a proof of concept.
 
 [Project folder](projects/purple/) · [Shared Drive folder](https://drive.google.com/drive/folders/1ym6spmjfJze60G52v7rUjbwQ4L_bqik5) · [Project plan](https://docs.google.com/document/d/1XGHnfHVm5Lmtz0epk3pzXoguQIZq3U25Cz2QOOsyjZE)
 
@@ -26,6 +26,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 2. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_chemical_space.ipynb) &nbsp;**Exploring the chemical space of the HIV-1 dataset** · _CPU_
 3. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_baseline_models.ipynb) &nbsp;**Training baseline models for HIV-1 activity** · _CPU_
 4. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_hdac1_feasibility.ipynb) &nbsp;**Deciding whether HDAC1 is worth modelling** · _CPU_
+5. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/purple/notebooks/purple_natural_product_screen.ipynb) &nbsp;**Screening African natural products with the HIV-1 model** · _CPU_
 
 ### 🟡 Yellow group · Hypertension
 
