@@ -70,6 +70,7 @@ Hands-on material for participants of a four-day, project-driven workshop. Four 
 5. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_sand_shape_similarity.ipynb) &nbsp;**Shape similarity to silymarin** · _CPU_
 6. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_sprint_filter.ipynb) &nbsp;**Filter the shape hits with SPRINT** · _CPU_
 7. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_cytotoxicity_filter.ipynb) &nbsp;**Filter the shape hits by predicted toxicity** · _CPU_
+8. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ersilia-os/ub-cedd-projects-workshop/blob/main/projects/blue/notebooks/blue_plots.ipynb) &nbsp;**Figures for the screening funnel** · _CPU_
 <!-- notebooks:end -->
 
 ## Shared Google Drive
