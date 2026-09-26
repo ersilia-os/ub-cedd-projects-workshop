@@ -13,6 +13,7 @@ Participants: put data files in the Drive folder **Projects/YellowTeam/Data**, n
 | `manual_ace_human.csv` | manual_ace_human.csv | `1VF9V1gi9EZArUPIQRu-nZboHgVq5snij` | 2026-09-24T09:36:17Z | 2026-09-24 | The group's own table (also in Drive as the sheet *ace_data_new*): rows taken from BindingDB and ChEMBL, plus rows curated by hand from published papers (`source` = `m_curated`) |
 | `ace_human_curated.csv` | ace_human_curated.csv | `1ZEVgN5_j2zLzoh4hqhtXdR2O3Kp4dqKG` | 2026-09-24T11:38:15Z | 2026-09-24 | The 1,018 molecules `notebooks/yellow_data_curation.ipynb` produced, uploaded to Drive by the group |
 | `eos1klk_ace_human.csv` | eos1klk_ace_human_1018.csv | `1vQN1lTXX_L_6Y5u9ELgSbr2zZnxbFUfS` | 2026-09-24T14:07:02Z | 2026-09-24 | Those same 1,018 molecules run through the Ersilia model [eos1klk](https://github.com/ersilia-os/eos1klk), which returns PCA, t-SNE, UMAP and TMAP coordinates on a map of 1.3M reference compounds |
+| `reinvent_mols_41k.csv` | reinvent_mols_41k.csv | `1WURK9lmCzMCrUM_fw7RZlbo5ZvT8ZvZ0` | 2026-09-26T07:37:17Z | 2026-09-26 | 41,374 molecules (SMILES and ID) generated with REINVENT by the group, plus captopril and lisinopril as references |
 
 `notebooks/yellow_data_curation.ipynb` reads the seven source files. It also fetches
 compound structures and assay depositors from PubChem the first time it runs, and keeps
